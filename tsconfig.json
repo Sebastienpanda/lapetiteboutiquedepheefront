@@ -5,6 +5,7 @@
   "compilerOptions": {
     "outDir": "./dist/out-tsc",
     "strict": true,
+    "baseUrl": "./src",
     "noImplicitOverride": true,
     "noPropertyAccessFromIndexSignature": true,
     "noImplicitReturns": true,
@@ -16,7 +17,33 @@
     "moduleResolution": "bundler",
     "importHelpers": true,
     "target": "ES2022",
-    "module": "ES2022"
+    "module": "ES2022",
+      "paths": {
+          "@environments/*": [
+              "environments/*"
+          ],
+          "@auth/*": [
+              "app/core/auth/*"
+          ],
+          "@users/*": [
+              "app/core/users/*"
+          ],
+          "@products/*": [
+              "app/core/services/products/*"
+          ],
+          "@pages/*": [
+              "app/pages/*"
+          ],
+          "@features/*": [
+              "app/features/*"
+          ],
+          "@shared/*": [
+              "app/shared/*"
+          ],
+          "@layouts/*": [
+              "app/layouts/*"
+          ]
+      }
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,

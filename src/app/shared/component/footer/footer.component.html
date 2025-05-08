@@ -1,0 +1,58 @@
+<footer class="bg-[#FFEFF3] border-t-2 border-neutral text-base-content px-4 py-16">
+	<div class="max-w-screen-2xl mx-auto flex flex-col md:flex-row gap-8">
+		<div class="flex-1">
+			<h3 class="text-2xl mb-6">La Petite Boutique d'Ephée</h3>
+			<p class="text-sm opacity-80 max-w-md">
+				Service de commissions artistiques personnalisées pour tous vos projets créatifs.
+			</p>
+
+			<div class="mt-6 flex items-center gap-4">
+				<button
+					type="button"
+					class="btn btn-circle btn-sm border-none bg-transparent"
+					aria-label="Lien vers Instagram"
+				>
+					<svg class="size-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+						<rect width="20" height="20" x="2" y="2" rx="5" ry="5" />
+						<path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+						<line x1="17.5" x2="17.51" y1="6.5" y2="6.5" />
+					</svg>
+				</button>
+			</div>
+
+			<div class="mt-6 flex items-center gap-2 cursor-pointer">
+				<a routerLink="#top">
+					<span class="text-sm">Retour en haut</span>
+				</a>
+				<lucide-icon [img]="ArrowUp" class="size-5" />
+			</div>
+		</div>
+
+		<div class="grid grid-cols-2 gap-8 flex-1">
+			<div>
+				<h4 id="footer-links" class="text-lg">Liens utiles</h4>
+				<ul aria-labelledby="footer-links" class="mt-4 flex flex-col gap-2 text-sm">
+					<li><a routerLink="/">Accueil</a></li>
+					<li><a routerLink="/">Boutique</a></li>
+					<li><a routerLink="/">Catégories</a></li>
+					<li><a routerLink="/">Contact</a></li>
+				</ul>
+			</div>
+			<div>
+				<h4 id="footer-legals" class="text-lg">Mentions légales</h4>
+				<ul aria-labelledby="footer-legals" class="mt-4 flex flex-col gap-2 text-sm">
+					<li><a routerLink="/">Mentions</a></li>
+					<li><a routerLink="/">CGU</a></li>
+					<li><a routerLink="/">CGV</a></li>
+					<li><a routerLink="/">Confidentialité</a></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+
+	<div class="divider my-8"></div>
+
+	<div class="text-center text-xs opacity-70">
+		© {{ currentYear }} La Petite Boutique d'Ephée. Tous droits réservés.
+	</div>
+</footer>

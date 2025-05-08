@@ -1,0 +1,46 @@
+<section class="bg-[#F9F5F6] mt-32 py-8 md:py-16">
+	<div class="container">
+		<app-section-intro
+			title="Encore plus d’inspirations"
+			description="Poursuivez votre voyage créatif avec ces catégories"
+		/>
+
+		<div
+			class="grid place-content-center gap-4 mt-16 grid-cols-[21.44rem] grid-rows-[25rem_repeat(5,15.625rem)] md:grid-cols-2 md:grid-rows-[repeat(7,minmax(0,1fr))] md:max-h-[52.25rem] xl:grid-cols-[1fr_1.5fr_1fr] xl:grid-rows-[repeat(5,minmax(0,1fr))] xl:gap-6"
+		>
+			@for (category of categories; track category.title) {
+				<div class="relative overflow-hidden rounded-xl item" [class]="category.area">
+					<img [src]="category.image" [alt]="category.title" class="w-full h-full object-cover" />
+					<div class="absolute inset-0 bg-[rgba(109,88,66,0.6)] z-0"></div>
+
+					<div class="absolute bottom-[22px] left-6 text-base-100 z-10">
+						@if (category.popular) {
+							<span class="badge badge-primary text-xs mb-4" aria-label="Catégorie populaire"
+								>POPULAIRE</span
+							>
+						}
+
+						<div class="flex flex-col">
+							<h3 class="text-2xl md:text-3xl">
+								{{ category.title }}
+							</h3>
+
+							@if (category.description !== "") {
+								<p class="text-base mt-2">
+									{{ category.description }}
+								</p>
+							}
+
+							<div class="flex items-center gap-2 mt-4">
+								<a routerLink="/" class="text-sm" [attr.aria-label]="'Voir plus sur ' + category.title"
+									>Voir plus</a
+								>
+								<lucide-icon [img]="ArrowRight" size="22" />
+							</div>
+						</div>
+					</div>
+				</div>
+			}
+		</div>
+	</div>
+</section>

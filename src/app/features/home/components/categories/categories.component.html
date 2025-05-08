@@ -1,0 +1,64 @@
+<section class="mt-32" id="categories">
+	<div class="container">
+		<app-section-intro title="Nos Univers Créatifs" description="Laissez-vous tenter par nos collections" />
+		<div class="flex flex-col gap-4 mt-16 md:flex-row md:justify-center md:gap-6">
+			<div
+				class="relative rounded-xl overflow-hidden shadow-md h-[400px] max-h-[400px] md:max-h-[408px] md:h-[408px] duration-300 ease-in-out hover:brightness-105"
+			>
+				<img
+					src="/photo-1611673038517-b964c31f0ed7.jpg"
+					class="w-full h-full object-cover"
+					alt="Notre Boutique"
+				/>
+				<div class="absolute bottom-10 px-8 text-left text-base-100 z-10">
+					<h3 class="text-3xl">Notre Boutique</h3>
+					<p class="text-base mt-4 mb-8">L'univers graphique d'Ephée en quelques clics</p>
+					<app-button size="md" variant="primary">Explorer les créations</app-button>
+				</div>
+				<div class="absolute inset-0 bg-[rgba(109,88,66,0.6)] z-0"></div>
+			</div>
+
+			<div class="flex flex-col gap-4 md:gap-6 flex-1">
+				<div
+					class="relative rounded-xl overflow-hidden shadow-md max-h-[192px] duration-300 ease-in-out hover:brightness-105"
+				>
+					<img
+						src="/photo-1521667427778-cbb9f8622ac4.jpg"
+						alt="Livres de coloriage"
+						class="w-full h-full object-cover"
+					/>
+					<div class="absolute bottom-5 px-8 text-base-100 z-10">
+						<h3 class="text-xl">Livres de coloriage</h3>
+						<div class="flex items-center gap-2 mt-4">
+							<a routerLink="/" class="text-sm" aria-label="Voir plus sur les livres de coloriage"
+								>Voir plus</a
+							>
+							<lucide-icon [img]="ArrowRight" size="22" />
+						</div>
+					</div>
+					<div class="absolute inset-0 bg-[rgba(109,88,66,0.6)] z-0"></div>
+				</div>
+
+				<div
+					class="relative rounded-xl overflow-hidden shadow-md max-h-[192px] duration-300 ease-in-out hover:brightness-105"
+				>
+					<img
+						src="/photo-1700212029392-b68d7f277b89.jpg"
+						alt="Commissions personnalisées"
+						class="w-full h-full object-cover"
+					/>
+					<div class="absolute bottom-5 px-8 text-base-100 z-10">
+						<h3 class="text-xl">Commissions personnalisées</h3>
+						<div class="flex items-center gap-2 mt-4">
+							<a routerLink="/" class="text-sm" aria-label="Voir plus sur les commissions personnalisées"
+								>Voir plus</a
+							>
+							<lucide-icon [img]="ArrowRight" size="22" />
+						</div>
+					</div>
+					<div class="absolute inset-0 bg-[rgba(109,88,66,0.6)] z-0"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>

@@ -1,0 +1,101 @@
+<div
+	class="flex items-center justify-between container max-w-[1800px] mx-auto xl:grid xl:grid-cols-[1fr_auto_1fr] relative"
+>
+	<!-- Logo -->
+	<div class="size-[80px] xl:justify-self-start">
+		<a routerLink="/">
+			<img src="/logo.svg" class="h-full w-full" alt="Logo de la boutique" />
+		</a>
+	</div>
+	<nav class="hidden xl:block text-center xl:justify-self-center">
+		<ul class="flex items-center justify-center gap-2">
+			@for (navigation of navigations(); track navigation.title) {
+				<li>
+					<a
+						[routerLink]="navigation.link"
+						routerLinkActive="active"
+						[routerLinkActiveOptions]="{ exact: true }"
+						class="text-base font-bold px-4 py-2 rounded-md transition-colors duration-350 ease-in-out hover:text-base-100 hover:bg-primary"
+					>
+						{{ navigation.title }}
+					</a>
+				</li>
+			}
+		</ul>
+	</nav>
+	<div class="flex items-center gap-5 xl:justify-self-end">
+		<button
+			#cartButtonRef
+			class="cursor-pointer"
+			type="button"
+			aria-label="Panier"
+			aria-haspopup="dialog"
+			[attr.aria-expanded]="isCartOpen"
+			aria-controls="cart-menu"
+			(click)="toggleCart()"
+		>
+			<lucide-icon
+				[img]="ShoppingBag"
+				size="26"
+				class="text-base-content hover:text-primary transition-colors duration-300 ease-in-out"
+			/>
+		</button>
+
+		<!-- Menu déroulant du panier -->
+		@if (isCartOpen) {
+			<div
+				#cartMenuRef
+				id="cart-menu"
+				aria-label="Contenu du panier"
+				class="absolute top-full mt-2 w-[320px] bg-base-100 border border-grey rounded-lg shadow-lg z-50 p-4 right-0 transition duration-200 ease-out transform opacity-0 scale-95 animate-[fade-in_.2s_ease-in-out_forwards]"
+			>
+				<div class="flex items-start gap-4 pb-4 border-b border-grey">
+					<div class="bg-base-100 p-1 rounded border border-grey">
+						<img src="/hero-banner-mobile.jpg" alt="Hip Bag" class="size-12 object-cover rounded" />
+					</div>
+					<div>
+						<p class="font-bold">Throwback Hip Bag</p>
+						<p class="text-sm text-gray-500">Salmon</p>
+					</div>
+				</div>
+
+				<!-- Produit 2 -->
+				<div class="flex items-start gap-4 py-4 border-b border-grey">
+					<div class="bg-base-100 p-1 rounded border border-grey">
+						<img src="/hero-banner-mobile.jpg" alt="Satchel" class="w-12 h-12 object-cover rounded" />
+					</div>
+					<div>
+						<p class="font-bold">Medium Stuff Satchel</p>
+						<p class="text-sm text-gray-500">Blue</p>
+					</div>
+				</div>
+
+				<!-- Produit 3 -->
+				<div class="flex items-start gap-4 py-4">
+					<div class="bg-white p-1 rounded border border-gray-200">
+						<img src="/hero-banner-mobile.jpg" alt="Tote" class="w-12 h-12 object-cover rounded" />
+					</div>
+					<div>
+						<p class="font-bold">Zip Tote Basket</p>
+						<p class="text-sm text-gray-500">White and black</p>
+					</div>
+				</div>
+
+				<button class="btn btn-primary w-full mt-2">Passer au paiement</button>
+				<a routerLink="/panier" class="block text-center text-sm text-primary mt-2 underline"
+					>Voir son panier</a
+				>
+			</div>
+		}
+
+		<app-button routerLink="/login" textLink="Se connecter" size="md" class="hidden xl:block min-w-[200px]" />
+		<button
+			type="button"
+			aria-label="Menu"
+			class="inline-flex items-center justify-center w-8 h-8 xl:hidden"
+			(click)="menuClick.emit()"
+		>
+			<lucide-icon [img]="Menu" size="20" />
+		</button>
+	</div>
+</div>

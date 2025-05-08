@@ -1,0 +1,42 @@
+<div
+	cdkTrapFocus
+	class="fixed inset-0 z-50 flex flex-col bg-pink transition-transform translate-x-full duration-300 ease-in-out transform px-4 py-4"
+	[class.translate-x-0]="isOpen()"
+	[class.translate-x-full]="!isOpen()"
+	aria-modal="true"
+	aria-label="Menu de navigation"
+>
+	<div class="flex items-center justify-between mb-8">
+		<a routerLink="/" class="block size-16">
+			<img src="/logo.svg" alt="Logo de la boutique" class="size-full object-contain" />
+		</a>
+		<div class="flex items-center gap-4">
+			<button type="button" aria-label="Panier" title="Mon panier" class="btn btn-ghost btn-sm">
+				<lucide-icon [img]="ShoppingBag" size="22" />
+			</button>
+			<button type="button" aria-label="Fermer le menu" class="btn btn-ghost btn-sm" (click)="close()()">
+				<lucide-icon [img]="X" size="22" />
+			</button>
+		</div>
+	</div>
+
+	<ul class="flex flex-col gap-6">
+		@for (navigation of navigations(); track navigation.title) {
+			<li>
+				<a
+					[routerLink]="navigation.link"
+					routerLinkActive="active-mobile"
+					[routerLinkActiveOptions]="{ exact: true }"
+					(click)="close()"
+					class="text-lg block w-full border-b border-base-content pb-3 transform duration-300 ease-in-out hover:text-primary"
+				>
+					{{ navigation.title }}
+				</a>
+			</li>
+		}
+	</ul>
+
+	<div class="mt-auto pt-8">
+		<app-button routerLink="/login" size="md" textLink="Se connecter" />
+	</div>
+</div>

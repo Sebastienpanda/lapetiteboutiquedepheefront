@@ -1,0 +1,10 @@
+<section class="py-8 md:py-16 mt-32 container mx-auto" aria-label="Carrousel de produits">
+	<app-section-intro
+		title="Encore plus d’inspirations"
+		description="Poursuivez votre voyage créatif avec ces catégories"
+	/>
+
+	@if (data()) {
+		<app-slider [dataHttpResourceRef]="productsIsFeatured.httpProductsIsFeatured" />
+	}
+</section>
