@@ -1,0 +1,29 @@
+<section class="bg-[#4D6E5BFF] py-16 mt-32">
+	<div class="container mx-auto px-4 text-center">
+		<app-section-intro
+			title="Inscrivez-vous à notre newsletter"
+			description="Découvrez nos dernières nouveautés"
+			color="white"
+		/>
+
+		<form
+			aria-label="Inscription à la newsletter"
+			class="mt-10 flex flex-col gap-3 items-center md:flex-row md:justify-center"
+			noValidate
+		>
+			<label for="newsletter-email" class="sr-only">Adresse e-mail</label>
+			<input
+				id="newsletter-email"
+				type="email"
+				required
+				placeholder="Votre adresse e-mail"
+				class="input input-bordered w-full bg-base-100 text-base-content shadow-md px-5 md:max-w-[500px] focus:outline-none focus:ring-2 focus:ring-primary/60"
+			/>
+			<app-button class="w-full md:w-[initial]">S'inscrire</app-button>
+		</form>
+
+		<p class="text-sm text-base-100 mt-10 max-w-xl mx-auto">
+			En vous inscrivant, vous acceptez de recevoir nos newsletters. Vous pourrez vous désinscrire à tout moment.
+		</p>
+	</div>
+</section>

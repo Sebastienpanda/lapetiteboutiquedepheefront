@@ -6,12 +6,12 @@ import { SliderComponent } from "@shared/component/slider/slider.component";
 
 @Component({
 	selector: "app-product",
-	templateUrl: "./product.component.html",
+	templateUrl: "./product-is-featured.component.html",
 	imports: [CommonModule, SectionIntroComponent, SliderComponent],
 	schemas: [CUSTOM_ELEMENTS_SCHEMA],
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ProductComponent {
+export class ProductIsFeaturedComponent {
 	readonly productsIsFeatured = inject(ProductsFeaturedService);
 
 	readonly data = computed(() => this.productsIsFeatured.httpProductsIsFeatured.value());
