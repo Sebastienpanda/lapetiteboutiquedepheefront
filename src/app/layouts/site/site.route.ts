@@ -14,6 +14,10 @@ export const routes: Routes = [
 				path: "a-propos",
 				loadComponent: () => import("@features/about/about.component"),
 			},
+			{
+				path: "faq",
+				loadComponent: () => import("@features/faq/faq.component"),
+			},
 		],
 	},
 ];
