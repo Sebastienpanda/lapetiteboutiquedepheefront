@@ -10,6 +10,10 @@ export const routes: Routes = [
 				path: "boutique",
 				loadComponent: () => import("@features/boutique/boutique.component"),
 			},
+			{
+				path: "a-propos",
+				loadComponent: () => import("@features/about/about.component"),
+			},
 		],
 	},
 ];

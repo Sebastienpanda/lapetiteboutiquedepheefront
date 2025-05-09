@@ -1,10 +1,12 @@
-import { ChangeDetectionStrategy, Component, computed, inject } from "@angular/core";
+import { ChangeDetectionStrategy, Component, computed, inject, OnInit } from "@angular/core";
 import { PaginationComponent } from "@shared/component/ui/pagination/pagination.component";
 import { RouterLink } from "@angular/router";
 import { ProductsService } from "@products/products.service";
 import { ProductImage } from "@core/services/products-featured/products-featured.service";
 import { CurrencyPipe } from "@angular/common";
 import { animate, query, stagger, style, transition, trigger } from "@angular/animations";
+import { Meta, Title } from "@angular/platform-browser";
+import { SeoService } from "@core/services/seo/seo.service";
 
 @Component({
 	selector: "app-boutique",
@@ -26,8 +28,15 @@ import { animate, query, stagger, style, transition, trigger } from "@angular/an
 	],
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export default class BoutiqueComponent {
+export default class BoutiqueComponent implements OnInit {
 	readonly productService = inject(ProductsService);
+	private readonly seo = inject(SeoService);
+
+	ngOnInit(): void {
+		this.seo.updateTitle("À propos");
+		this.seo.updateDescription("Page de présentation de la boutique et de son histoire.");
+	}
+
 	readonly productsResource = this.productService.httpProducts;
 	readonly totalPages = this.productService.totalPages;
 	readonly limit = this.productService.limit;

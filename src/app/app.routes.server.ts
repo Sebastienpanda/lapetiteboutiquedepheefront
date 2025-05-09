@@ -9,4 +9,8 @@ export const serverRoutes: Array<ServerRoute> = [
 		path: "boutique",
 		renderMode: RenderMode.Client,
 	},
+	{
+		path: "a-propos",
+		renderMode: RenderMode.Client,
+	},
 ];
