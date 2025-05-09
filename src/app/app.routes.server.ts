@@ -17,4 +17,8 @@ export const serverRoutes: Array<ServerRoute> = [
 		path: "faq",
 		renderMode: RenderMode.Client,
 	},
+	{
+		path: "commission",
+		renderMode: RenderMode.Client,
+	},
 ];

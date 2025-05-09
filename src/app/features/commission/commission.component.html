@@ -1,0 +1,147 @@
+<section class="my-20 container mx-auto px-4">
+	<app-section-intro
+		title="Commissions Personnalisées"
+		description="Vous avez un projet unique en tête ? Nous sommes là pour donner vie à vos idées"
+	/>
+
+	<div class="grid grid-cols-1 gap-8 mt-12 lg:grid-cols-[1fr_2fr] xl:mt-20 items-start">
+		<!-- Colonne gauche (sticky) -->
+		<div class="flex flex-col gap-8 xl:sticky xl:top-40">
+			<!-- Inspiration -->
+			<div class="bg-base-100 border border-pink p-6 rounded-lg shadow-sm">
+				<h2 class="text-2xl font-semibold mb-3">Besoin d'inspiration ?</h2>
+				<p class="text-sm text-grey mb-4">
+					Découvrez quelques exemples de nos créations personnalisées pour vous inspirer.
+				</p>
+				<app-button class="w-full">Voir notre galerie</app-button>
+			</div>
+
+			<!-- Étapes du processus -->
+			<div>
+				<h2 class="text-2xl font-semibold mb-6">Notre Processus</h2>
+				<div class="flex flex-col gap-6">
+					<div class="flex items-start gap-4">
+						<div
+							class="w-10 h-10 rounded-full flex items-center justify-center text-[#8c4351] bg-[#e5c5cf] font-medium"
+						>
+							1
+						</div>
+						<div>
+							<h3 class="text-xl font-semibold mb-1">Consultation</h3>
+							<p class="text-sm text-base-content">Nous discutons de votre vision.</p>
+						</div>
+					</div>
+
+					<div class="flex items-start gap-4">
+						<div
+							class="w-10 h-10 rounded-full flex items-center justify-center text-neutral bg-[#c7dad4] font-medium"
+						>
+							2
+						</div>
+						<div>
+							<h3 class="text-xl font-semibold mb-1">Conception</h3>
+							<p class="text-sm text-base-content">Croquis et prototypes pour visualiser.</p>
+						</div>
+					</div>
+
+					<div class="flex items-start gap-4">
+						<div
+							class="w-10 h-10 rounded-full flex items-center justify-center text-neutral bg-[#f0e3d0] font-medium"
+						>
+							3
+						</div>
+						<div>
+							<h3 class="text-xl font-semibold mb-1">Création</h3>
+							<p class="text-sm text-base-content">Réalisation artisanale soignée.</p>
+						</div>
+					</div>
+
+					<div class="flex items-start gap-4">
+						<div
+							class="w-10 h-10 rounded-full flex items-center justify-center text-base-100 bg-[#8c4351] font-medium"
+						>
+							4
+						</div>
+						<div>
+							<h3 class="text-xl font-semibold mb-1">Finalisation</h3>
+							<p class="text-sm text-base-content">Livraison élégante et personnalisée.</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Colonne droite : formulaire + types -->
+		<div class="flex flex-col gap-10">
+			<!-- Form Wrapper -->
+			<div class="bg-base-100 p-8 rounded-lg shadow border border-grey">
+				<h2 class="text-2xl font-semibold mb-3">Demande de Commission</h2>
+				<p class="text-sm text-base-content mb-6">Types de commission</p>
+
+				<!-- Sélecteurs -->
+				<div class="flex flex-wrap gap-4 mb-6">
+					@for (type of types; track type) {
+						<button
+							type="button"
+							[class]="
+								[
+									'w-[106px] h-[74px] p-3 cursor-pointer border rounded-md flex flex-col items-center justify-center gap-2 text-sm font-medium transition',
+									selectedType === type
+										? 'bg-pink/20 border-[#8c4351]'
+										: 'bg-base-100 border-pink hover:bg-pink/20',
+								].join(' ')
+							"
+							(click)="selectType(type)"
+						>
+							<lucide-icon [img]="getIconName(type)" class="w-5 h-5 text-neutral" />
+							<span class="text-base-content font-semibold">{{ type }}</span>
+						</button>
+					}
+				</div>
+
+				<!-- Formulaires dynamiques (1 exemple ici, à cloner selon type) -->
+				<form class="flex flex-col gap-4 mt-12">
+					@if (selectedType === "illustration") {
+						<div>
+							<label for="name" class="block mb-4 text-sm font-medium text-base-content"
+								>Nom complet</label
+							>
+							<input type="text" id="name" class="input input-bordered w-full" />
+						</div>
+						<div>
+							<label for="email" class="block mb-4 text-sm font-medium text-base-content">Email</label>
+							<input type="email" id="email" class="input input-bordered w-full" />
+						</div>
+						<div>
+							<label for="style" class="block mb-4 text-sm font-medium text-base-content">Style</label>
+							<select id="style" class="select select-bordered w-full">
+								<option>Sélectionnez un style</option>
+							</select>
+						</div>
+					}
+				</form>
+				<!-- Submit -->
+				<app-button class="mt-6 block">Envoyer la demande</app-button>
+			</div>
+
+			<!-- Témoignages -->
+			<div class="bg-[#ececec] p-6 rounded-lg">
+				<h3 class="text-2xl font-semibold mb-4">Témoignages de clients</h3>
+				<div class="flex flex-col gap-4">
+					<div class="bg-base-100 p-4 rounded-md shadow-sm text-base italic text-grey">
+						"Bloom a créé une pièce magnifique pour notre mariage..."
+						<span class="block text-right font-semibold not-italic text-base-content mt-2"
+							>- Sophie M.</span
+						>
+					</div>
+					<div class="bg-base-100 p-4 rounded-md shadow-sm text-base italic text-grey">
+						"J'ai commandé un accessoire personnalisé pour ma sœur..."
+						<span class="block text-right font-semibold not-italic text-base-content mt-2"
+							>- Thomas L.</span
+						>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>

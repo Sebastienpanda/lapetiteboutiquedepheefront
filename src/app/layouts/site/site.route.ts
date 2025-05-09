@@ -18,6 +18,10 @@ export const routes: Routes = [
 				path: "faq",
 				loadComponent: () => import("@features/faq/faq.component"),
 			},
+			{
+				path: "commission",
+				loadComponent: () => import("@features/commission/commission.component"),
+			},
 		],
 	},
 ];
