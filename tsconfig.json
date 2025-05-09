@@ -42,6 +42,9 @@
           ],
           "@layouts/*": [
               "app/layouts/*"
+          ],
+          "@core/*": [
+              "app/core/*"
           ]
       }
   },

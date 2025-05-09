@@ -8,7 +8,7 @@ export interface ProductImage {
 	is_first_image?: boolean;
 }
 
-export interface Product {
+export interface ProductIsFeatured {
 	id: string;
 	name: string;
 	description: string;
@@ -25,7 +25,7 @@ export interface Product {
 export class ProductsFeaturedService {
 	private readonly apiUrl = environment.apiUrl;
 
-	httpProductsIsFeatured = httpResource<Array<Product>>(() => this.apiUrl + "/products/featured", {
+	httpProductsIsFeatured = httpResource<Array<ProductIsFeatured>>(() => this.apiUrl + "/products/featured", {
 		defaultValue: [],
 	});
 }

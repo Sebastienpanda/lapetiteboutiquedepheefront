@@ -1,0 +1,100 @@
+<section class="mb-20">
+	<div class="text-center mb-12 bg-[#F9F5F6] py-30">
+		<div class="w-full max-w-2xl mx-auto text-center">
+			<h1 class="text-4xl md:text-5xl mb-6">Notre Boutique</h1>
+			<p class="text-lg text-grey mb-8">
+				Découvrez notre collection de stickers, illustrations, porte-clés et livres de coloriage créés avec
+				passion
+			</p>
+
+			<div class="mt-6 relative">
+				<input type="text" placeholder="Rechercher un produit" class="input input-bordered w-full pr-10" />
+				<div class="absolute right-3 top-1/2 -translate-y-1/2 z-10 text-base-content/70">
+					<svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+						<circle cx="11" cy="11" r="8" />
+						<line x1="21" x2="16.65" y1="21" y2="16.65" />
+					</svg>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="grid lg:grid-cols-[300px_1fr] gap-12 container">
+		<!-- FILTRES -->
+		<aside class="bg-base-100 p-4 rounded-box shadow-md space-y-4 lg:sticky lg:top-40 self-start">
+			<h2 class="text-xl font-bold">Filtres</h2>
+
+			<!-- Catégories -->
+			<div class="collapse collapse-arrow border border-base-200 rounded-box">
+				<input type="checkbox" checked />
+				<div class="collapse-title font-semibold text-base">Catégories</div>
+				<div class="collapse-content space-y-2"></div>
+			</div>
+
+			<!-- Nouveautés -->
+			<div class="collapse collapse-arrow border border-base-200 rounded-box">
+				<input type="checkbox" checked />
+				<div class="collapse-title font-semibold text-base">Disponibilité</div>
+				<div class="collapse-content space-y-2">
+					<span class="label-text text-base-content">Nouveautés</span>
+				</div>
+			</div>
+		</aside>
+
+		<!-- PRODUITS -->
+		<div>
+			@if (isLoadingProducts()) {
+				<p class="skeleton h-4 mb-4 bg-grey"></p>
+			} @else if (!isLoadingProducts() && total() > 0) {
+				<p class="text-sm mb-4 text-base-content/70">
+					Affichage des produits {{ start() }} à {{ end() }} sur {{ total() }}
+				</p>
+			}
+			<div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+				@if (isLoadingProducts()) {
+					@for (_ of Array.from({ length: 6 }); track $index) {
+						<a class="card shadow-sm skeleton">
+							<figure class="relative bg-grey w-full h-60 skeleton"></figure>
+							<div class="card-body bg-base-100 p-4 space-y-2">
+								<div class="h-4 bg-grey rounded w-3/4 skeleton"></div>
+								<div class="h-4 bg-grey rounded w-1/2 skeleton"></div>
+							</div>
+						</a>
+					}
+				} @else {
+					@for (product of visibleProducts(); track product.id) {
+						<a
+							class="card border border-base-200 shadow-sm cursor-pointer"
+							role="link"
+							[routerLink]="['/boutique', product.slug]"
+						>
+							<figure class="relative">
+								@if (getFirstImage(product.images)) {
+									@let isFirstImage = getFirstImage(product.images);
+									<picture class="size-full">
+										<source [srcset]="isFirstImage?.path_webp" type="image/webp" />
+										<img
+											[src]="isFirstImage?.path_png"
+											[alt]="product.name"
+											class="w-full h-60 object-cover"
+										/>
+									</picture>
+								}
+							</figure>
+							<div class="card-body bg-base-100 p-4">
+								<h3 class="font-bold text-base">{{ product.name }}</h3>
+								<p class="font-semibold">{{ product.price / 100 | currency: "EUR" }}</p>
+							</div>
+						</a>
+					}
+				}
+			</div>
+			<app-pagination
+				class="mt-10"
+				[currentPage]="page()"
+				[totalPages]="totalPages()"
+				(pageChange)="onPageChange($event)"
+			/>
+		</div>
+	</div>
+</section>
