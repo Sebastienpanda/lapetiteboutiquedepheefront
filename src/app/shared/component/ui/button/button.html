@@ -1,0 +1,15 @@
+@if (isLink()) {
+	<a [class]="buttonClass()" [routerLink]="routerLink()" [attr.aria-label]="ariaLabel()">
+		@if (icon() !== undefined) {
+			<lucide-icon [img]="icon()" size="18" class="me-2" aria-hidden="true" />
+		}
+		{{ textLink() }}
+	</a>
+} @else {
+	<button [type]="type()" [class]="buttonClass()" [disabled]="disabled()" [attr.aria-label]="ariaLabel()">
+		@if (icon() !== undefined) {
+			<lucide-icon [img]="icon()" size="18" class="me-2" aria-hidden="true" />
+		}
+		<ng-content />
+	</button>
+}

@@ -1,0 +1,9 @@
+@if (image()) {
+    <figure class="{{ class() }}">
+        @for (img of image(); track img.id) {
+            <picture class="size-full block">
+                <img [src]="img.image_url" [alt]="alt()" class="size-full object-cover" loading="lazy"/>
+            </picture>
+        }
+    </figure>
+}

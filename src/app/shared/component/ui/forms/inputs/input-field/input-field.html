@@ -1,0 +1,68 @@
+<div>
+	<label [for]="id()" class="label flex justify-between items-center">
+		<span>
+			{{ label() }}
+			@if (required()) {
+				<span class="text-error">*</span>
+			}
+		</span>
+
+		@if (showPasswordTips()) {
+			<div class="relative z-100 inline-block">
+				<button
+					type="button"
+					class="text-sm font-medium text-primary hover:underline cursor-pointer"
+					(click)="toggleTips()"
+				>
+					{{ tipsVisible() ? "Masquer" : "Conseils" }}
+				</button>
+
+				@if (tipsVisible()) {
+					<div
+						class="absolute w-64 mt-2 p-4 text-sm rounded-box bg-base-100 border border-base-200 shadow-lg animate-fade-in right-0"
+					>
+						<ul class="list-disc pl-5 space-y-1 text-base-content/80">
+							@for (tip of tipsContent() ?? []; track $index) {
+								<li>{{ tip }}</li>
+							}
+						</ul>
+					</div>
+				}
+			</div>
+		}
+	</label>
+
+	<div class="relative">
+		<input
+			[id]="id()"
+			[type]="isPassword() && !showPassword() ? 'password' : 'text'"
+			[formControl]="control()"
+			class="input input-bordered w-full mt-4 transition duration-300 ease-in-out"
+			[placeholder]="placeholder()"
+			[class.input-error]="control().invalid && (control().touched || control().dirty)"
+		/>
+
+		@if (isPassword()) {
+			<button
+				type="button"
+				class="absolute z-10 top-[48%] right-4 cursor-pointer"
+				(click)="togglePasswordVisibility()"
+				tabindex="-1"
+			>
+				<lucide-icon [img]="showPassword() ? EyeOff : Eye" class="size-5 text-base-content/60" />
+			</button>
+		}
+	</div>
+
+	@for (key of Object.keys(errorMessages()); track key) {
+		@if (hasError(key)) {
+			<span class="text-error text-sm block mt-1 animate-fade-in">
+				{{ errorMessages()[key] }}
+			</span>
+		}
+	}
+
+	@if (confirmPassword() && control().hasError("passwordMismatch") && (control().dirty || control().touched)) {
+		<span class="text-error text-sm block mt-1 animate-fade-in"> Les mots de passe ne correspondent pas </span>
+	}
+</div>

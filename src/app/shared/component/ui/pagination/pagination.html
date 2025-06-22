@@ -1,0 +1,42 @@
+<nav class="flex justify-center items-center gap-2 mt-6" aria-label="Pagination des pages">
+	<button
+		type="button"
+		class="btn btn-sm btn-outline btn-square"
+		[disabled]="currentPage() === 1"
+		(click)="previousPage()"
+		aria-label="Page précédente"
+		[title]="currentPage() === 1 ? 'Déjà sur la première page' : 'Page précédente'"
+		[attr.aria-disabled]="currentPage() === 1"
+	>
+		<lucide-icon [img]="ChevronLeft" />
+	</button>
+
+	@for (page of pages; track page) {
+		<button
+			type="button"
+			class="btn btn-sm btn-square"
+			[class]="page === currentPage() ? 'btn-active btn-primary' : 'btn-outline'"
+			(click)="goToPage(page)"
+			[attr.aria-current]="page === currentPage() ? 'page' : null"
+			[attr.aria-label]="page === currentPage() ? 'Page ' + page + ' actuelle' : 'Aller à la page ' + page"
+			[attr.title]="page === currentPage() ? 'Page actuelle' : 'Aller à la page ' + page"
+			[attr.tabindex]="page === currentPage() ? -1 : 0"
+			(keydown)="onKeyDown($event, page)"
+			[attr.data-page]="page"
+		>
+			{{ page }}
+		</button>
+	}
+
+	<button
+		type="button"
+		class="btn btn-sm btn-outline btn-square"
+		[disabled]="currentPage() === totalPages()"
+		(click)="nextPage()"
+		aria-label="Page suivante"
+		[title]="currentPage() === totalPages() ? 'Dernière page atteinte' : 'Aller à la page suivante'"
+		[attr.aria-disabled]="currentPage() === totalPages()"
+	>
+		<lucide-icon [img]="ChevronRight" />
+	</button>
+</nav>

@@ -1,0 +1,59 @@
+<div
+    class="flex items-center justify-between container max-w-[1800px] mx-auto xl:grid xl:grid-cols-[1fr_auto_1fr] relative"
+>
+    <!-- Logo -->
+    <div class="size-[80px] xl:justify-self-start">
+        <a routerLink="/">
+            <img src="/logo.svg" class="h-full w-full" alt="Logo de la boutique"/>
+        </a>
+    </div>
+    <nav class="hidden xl:block text-center xl:justify-self-center">
+        <ul class="flex items-center justify-center gap-2">
+            @for (navigation of navigations(); track navigation.title) {
+                <li>
+                    <a
+                        [routerLink]="navigation.link"
+                        routerLinkActive="active"
+                        [routerLinkActiveOptions]="{ exact: true }"
+                        class="text-base font-bold px-4 py-2 rounded-md transition-colors duration-350 ease-in-out hover:text-base-100 hover:bg-primary"
+                    >
+                        {{ navigation.title }}
+                    </a>
+                </li>
+            }
+        </ul>
+    </nav>
+    <div class="flex items-center gap-5 xl:justify-self-end">
+        <app-panier/>
+        @if (user.user()) {
+            <div class="dropdown dropdown-end">
+                <button class="btn btn-ghost btn-circle avatar">
+                    <div class="w-10 rounded-full">
+                        <img src="/photo-1611673038517-b964c31f0ed7.jpg" alt="Avatar"/>
+                    </div>
+                </button>
+                <ul class="mt-3 z-[1] p-2 shadow menu menu-md dropdown-content bg-base-100 rounded-box w-52">
+                    <li><a routerLink="/profil">Mon profil</a></li>
+                    <li><a routerLink="/profil/conversations">Mes conversations</a></li>
+                    <li><a routerLink="/profil/listes-envie">Mes listes d'envies</a></li>
+                    <li><a routerLink="/profil/favoris">Mes favoris</a></li>
+                    <li><a routerLink="/profil/commandes">Mes commandes</a></li>
+                    <!--                    <li>-->
+                    <!--                        <a (click)="logout()" class="text-error">Se déconnecter</a>-->
+                    <!--                    </li>-->
+                </ul>
+            </div>
+        } @else {
+            <app-button routerLink="/connexion" textLink="Se connecter" size="md"
+                        class="hidden xl:block min-w-[200px]"/>
+        }
+        <button
+            type="button"
+            aria-label="Menu"
+            class="inline-flex items-center justify-center w-8 h-8 xl:hidden"
+            (click)="menuClick.emit()"
+        >
+            <lucide-icon [img]="Menu" size="20"/>
+        </button>
+    </div>
+</div>

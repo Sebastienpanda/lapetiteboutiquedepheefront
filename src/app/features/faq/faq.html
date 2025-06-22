@@ -1,0 +1,95 @@
+<section class="container py-24 space-y-12">
+	<h1 class="text-4xl text-center">Foire aux Questions</h1>
+	<p class="text-center text-base-content/70">Trouvez rapidement des réponses à vos questions les plus fréquentes.</p>
+
+	<!-- Groupe : Commandes et Livraisons -->
+	<div>
+		<h2 class="text-xl text-primary mb-4">Commandes et Livraisons</h2>
+		<div class="join join-vertical w-full rounded-box bg-base-100">
+			<div class="collapse collapse-arrow join-item border border-base-200">
+				<input type="radio" name="faq-livraison" checked />
+				<div class="collapse-title font-semibold">Quels sont vos délais de livraison ?</div>
+				<div class="collapse-content text-sm text-base-content/80">
+					Nos délais sont de 2 à 5 jours ouvrés selon votre localisation.
+				</div>
+			</div>
+			<div class="collapse collapse-arrow join-item border border-base-200">
+				<input type="radio" name="faq-livraison" />
+				<div class="collapse-title font-semibold">Proposez-vous un suivi de commande ?</div>
+				<div class="collapse-content text-sm text-base-content/80">
+					Oui, vous recevrez un lien de suivi dès l’expédition.
+				</div>
+			</div>
+			<div class="collapse collapse-arrow join-item border border-base-200">
+				<input type="radio" name="faq-livraison" />
+				<div class="collapse-title font-semibold">Quels sont les frais de livraison ?</div>
+				<div class="collapse-content text-sm text-base-content/80">
+					La livraison est offerte à partir de 50€ d’achat.
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Groupe : Produits et Services -->
+	<div>
+		<h2 class="text-xl font-semibold text-primary mb-4">Produits et Services</h2>
+		<div class="join join-vertical w-full rounded-box bg-base-100">
+			<div class="collapse collapse-arrow join-item border border-base-200">
+				<input type="radio" name="faq-produits" checked />
+				<div class="collapse-title font-semibold">Comment entretenir mes bijoux ?</div>
+				<div class="collapse-content text-sm text-base-content/80">
+					Évitez l’eau et rangez-les dans leur pochette pour une meilleure durabilité.
+				</div>
+			</div>
+			<div class="collapse collapse-arrow join-item border border-base-200">
+				<input type="radio" name="faq-produits" />
+				<div class="collapse-title font-semibold">Proposez-vous des emballages cadeaux ?</div>
+				<div class="collapse-content text-sm text-base-content/80">
+					Oui, cochez l’option cadeau au moment de la commande.
+				</div>
+			</div>
+			<div class="collapse collapse-arrow join-item border border-base-200">
+				<input type="radio" name="faq-produits" />
+				<div class="collapse-title font-semibold">Puis-je personnaliser mes bijoux ?</div>
+				<div class="collapse-content text-sm text-base-content/80">
+					Absolument, rendez-vous dans la section « Commissions ».
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Groupe : Retours et Garanties -->
+	<div>
+		<h2 class="text-xl font-semibold text-primary mb-4">Retours et Garanties</h2>
+		<div class="join join-vertical w-full rounded-box bg-base-100">
+			<div class="collapse collapse-arrow join-item border border-base-200">
+				<input type="radio" name="faq-retour" checked />
+				<div class="collapse-title font-semibold">Quelle est votre politique de retour ?</div>
+				<div class="collapse-content text-sm text-base-content/80">
+					Vous avez 14 jours pour nous retourner le produit s’il ne vous convient pas.
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<!-- Contact section -->
+<section class="bg-base-200 py-16 mt-16">
+	<div class="container bg-base-100 rounded-box p-8 shadow-md text-center">
+		<div class="w-12 h-12 mx-auto rounded-full bg-primary/10 flex items-center justify-center mb-4">
+			<lucide-icon [img]="Mail" class="w-6 h-6 text-primary" />
+		</div>
+		<h2 class="text-xl font-semibold mb-1">Vous n'avez pas trouvé votre réponse ?</h2>
+		<p class="text-sm text-base-content/70 mb-6">
+			Utilisez le formulaire ci-dessous pour nous contacter directement.
+		</p>
+
+		<form class="space-y-4 text-left">
+			<input type="text" placeholder="Votre nom" class="input input-bordered w-full" />
+			<input type="email" placeholder="votre.email@example.com" class="input input-bordered w-full" />
+			<input type="text" placeholder="Sujet de votre message" class="input input-bordered w-full" />
+			<textarea placeholder="Votre message" rows="5" class="textarea textarea-bordered w-full"></textarea>
+			<app-button type="submit" class="max-w-[200px] w-full block">Envoyer</app-button>
+		</form>
+	</div>
+</section>

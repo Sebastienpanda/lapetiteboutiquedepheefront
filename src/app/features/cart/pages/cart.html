@@ -1,0 +1,92 @@
+<section>
+    <app-section-wrapper>
+        <a routerLink="/" class="text-sm text-primary mb-6 inline-block">← Continuer vos achats</a>
+
+        <h1 class="text-3xl font-bold mb-8">Votre panier</h1>
+
+        <div class="grid md:grid-cols-3 gap-8">
+            <div class="md:col-span-2 flex flex-col gap-4">
+                <div class="space-y-6 max-h-[600px] overflow-y-auto pr-2 rounded-lg border p-4">
+                    @if (cartItems().length > 0) {
+                        @for (item of cartItems(); track item.id) {
+                            <div
+                                class="flex flex-col sm:flex-row items-start sm:items-center justify-between border p-6 rounded-xl"
+                            >
+                                <div class="flex items-start gap-6 flex-1">
+                                    <app-responsive-image
+                                        [image]="item.product.images"
+                                        [alt]="item.product.name"
+                                        class="size-24 sm:size-28 rounded-lg bg-base-200 overflow-hidden"
+                                    />
+
+                                    <div class="flex flex-col gap-1">
+                                        <span
+                                            class="text-sm text-neutral uppercase tracking-widest"> {{
+                                                item.product.categorie.name
+                                            }}
+                                        </span>
+                                        <h2 class="font-semibold text-lg">{{ item.product.name }}</h2>
+                                        @if (item.product.type === 'physique') {
+                                            <p class="text-sm text-error">Produit disponible uniquement en France</p>
+                                        }
+                                        <div class="flex gap-3 mt-2 text-sm text-base-content">
+                                            <button (click)="removeItem(item)"
+                                                    class="cursor-pointer hover:text-error">Supprimer
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="flex items-center gap-6 mt-6 sm:mt-0">
+                                    <span class="text-base">{{ item.product.price }} €</span>
+                                    <div class="flex items-center border rounded overflow-hidden">
+                                        <button
+                                            (click)="decrease(item)"
+                                            class="px-2 cursor-pointer hover:text-primary transition-colors"
+                                        >
+                                            −
+                                        </button>
+                                        <span class="px-4">{{ item.quantity }}</span>
+                                        <button
+                                            (click)="increase(item)"
+                                            class="px-2 cursor-pointer hover:text-primary transition-colors"
+                                        >
+                                            +
+                                        </button>
+                                    </div>
+                                    <strong class="text-base">
+                                        {{ item.product.price * item.quantity | number: '1.2-2' }} €
+                                    </strong>
+                                </div>
+                            </div>
+                        }
+                    } @else {
+                        <p class="text-base-content">Votre panier est vide.</p>
+                    }
+                </div>
+
+                <button class="btn btn-outline btn-sm self-start" (click)="clearCart()">Vider le panier</button>
+            </div>
+
+            <div class="border rounded-lg p-6 shadow-sm flex flex-col max-h-[600px]">
+                <h3 class="text-lg font-semibold mb-4">Résumé de la commande</h3>
+
+                <div class="flex-1 space-y-4 overflow-y-auto pr-1">
+                    <div class="flex justify-between text-sm">
+                        <span>Sous-total</span>
+                        <span>{{ subtotal() | number: '1.2-2' }} €</span>
+                    </div>
+                    <hr/>
+                    <div class="flex justify-between font-bold text-lg">
+                        <span>Total</span>
+                        <span>{{ total() | number: '1.2-2' }} €</span>
+                    </div>
+                </div>
+                <div class="pt-4 border-t mt-4">
+                    <button class="btn btn-primary w-full" (click)="checkoutNow()">Passer la commande</button>
+                    <p class="text-xs text-center mt-2 text-base-content">Paiement sécurisé via Stripe</p>
+                </div>
+            </div>
+        </div>
+    </app-section-wrapper>
+</section>

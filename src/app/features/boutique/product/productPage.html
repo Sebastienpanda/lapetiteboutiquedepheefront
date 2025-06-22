@@ -1,0 +1,235 @@
+<app-section-wrapper>
+    <div class="breadcrumbs text-sm mb-6">
+        <ul>
+            <li><a routerLink="/">Accueil</a></li>
+            <li><a routerLink="/boutique">Boutique</a></li>
+            <li>{{ product()?.name }}</li>
+        </ul>
+    </div>
+    <div class="flex flex-col lg:grid lg:grid-cols-2 gap-12">
+        <div>
+            <div class="relative mb-4 w-full h-[550px] rounded-box overflow-hidden">
+                <swiper-container #swiperRef init="false" class="w-full h-full">
+                    @for (gallery of product()?.images; track gallery.id; ) {
+                        <swiper-slide>
+                            <div class="swiper-zoom-container w-full h-full">
+                                <!--                                <app-responsive-image [image]="gallery" [alt]="product()?.name"-->
+                                <!--                                                      class="size-full object-cover"/>-->
+                            </div>
+                        </swiper-slide>
+                    }
+                </swiper-container>
+
+                <!-- Flèches custom -->
+                <div class="absolute inset-0 flex items-center justify-between px-2 z-10 pointer-events-none">
+                    <button
+                        type="button"
+                        class="btn btn-circle bg-white text-primary shadow-md pointer-events-auto"
+                        #prevEl
+                        aria-label="Image précédente"
+                    >
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="20"
+                            height="20"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                        >
+                            <path d="M15 18l-6-6 6-6"/>
+                        </svg>
+                    </button>
+
+                    <button
+                        type="button"
+                        class="btn btn-circle bg-white text-primary shadow-md pointer-events-auto"
+                        #nextEl
+                        aria-label="Image suivante"
+                    >
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="20"
+                            height="20"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                        >
+                            <path d="M9 6l6 6-6 6"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <swiper-container #thumbsSwiper init="false" class="w-full">
+                @for (gallery of product()?.images; track gallery.id; ) {
+                    <swiper-slide class="cursor-pointer">
+                        <!--                        <app-responsive-image [image]="gallery" [alt]="product()?.name"-->
+                        />
+                    </swiper-slide>
+                }
+            </swiper-container>
+        </div>
+
+        <div class="space-y-6">
+            <div class="flex md:items-center flex-wrap md:justify-between gap-3 md:gap-0">
+                <div class="text-sm text-success">✅ En stock — expédié sous 48h</div>
+                <div class="flex items-center gap-2 text-sm text-base-content/70">
+                    <div class="flex items-center text-primary text-base">
+                        @for (i of [1, 2, 3, 4, 5]; track i) {
+                            <span [class.opacity-50]="i > 4.7" class="text-xl">★</span>
+                        }
+                    </div>
+                    <span>(4.7/5) · 32 avis</span>
+                </div>
+            </div>
+            <span
+                class="text-sm tracking-wide text-base-content/60 uppercase">{{ product()?.category?.nom }}</span>
+
+            <h1 class="text-3xl mt-4 leading-tight">{{ product()?.name }}</h1>
+
+            <p class="text-base text-base-content/80 leading-relaxed">{{ product()?.description }}</p>
+
+            <div class="text-3xl text-primary">{{ product()?.price }}€</div>
+
+            <div class="text-sm text-base-content/60">127 personnes ont acheté ce produit ce mois-ci</div>
+
+            <div class="flex flex-wrap items-center gap-3">
+                <div class="join">
+                    <button class="btn join-item btn-md">-</button>
+                    <input class="input join-item input-md w-12 text-center" [value]="quantity()" readonly/>
+                    <button class="btn join-item btn-md">+</button>
+                </div>
+
+                <app-button [icon]="ShoppingCart">Ajouter au panier</app-button>
+            </div>
+            <div class="flex flex-wrap items-center gap-3">
+                <app-wishlist-modal
+                    [product]="selectedProduct()"
+                    (selected)="onWishlistSelected($event)"
+                ></app-wishlist-modal>
+
+                <app-button (click)="openWishlistModal()"> Ajouter à une wishlist</app-button>
+
+                <button
+                    class="btn btn-md btn-square bg-base-100 border hover:bg-base-200"
+                    aria-label="Partager"
+                    title="Partager"
+                    (click)="shareProduct()"
+                >
+                    <lucide-icon [img]="Share" class="w-4 h-4"/>
+                </button>
+            </div>
+
+            <!-- Réassurance -->
+            <div class="divider my-4"></div>
+            <div class="grid gap-3 text-sm text-base-content/70">
+                <div class="flex items-center gap-2">
+                    <lucide-icon [img]="ShieldCheck" class="size-4 text-primary"/>
+                    Livraison suivie & sécurisée
+                </div>
+                <div class="flex items-center gap-2">
+                    <lucide-icon [img]="Undo2" class="size-4 text-primary"/>
+                    Retour gratuit sous 14 jours
+                </div>
+                <div class="flex items-center gap-2">
+                    <lucide-icon [img]="Sparkles" class="size-4 text-primary"/>
+                    Création artisanale française
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <section class="space-y-12">
+        <section class="mt-16 space-y-10">
+            <h2 class="text-2xl">Commentaires</h2>
+
+            <!-- Formulaire -->
+            <div class="bg-[#ececec] p-6 rounded-lg">
+                <form class="space-y-4" (submit)="submitComment()">
+                    <h3 class="text-lg mb-8">Ajouter un commentaire</h3>
+
+                    <div class="flex flex-col gap-8 mb-4">
+                        <div class="flex flex-col gap-4">
+                            <label for="author" class="block font-bold text-sm">Votre nom</label>
+                            <input
+                                id="author"
+                                type="text"
+                                class="input input-bordered w-full"
+                                placeholder="Entrez votre nom"
+                                [value]="newAuthor()"
+                                (input)="newAuthor.set($any($event.target).value)"
+                                required
+                            />
+                        </div>
+
+                        <div class="flex flex-col gap-2">
+                            <p class="text-sm font-bold">Note</p>
+                            <div class="flex gap-1" (mouseleave)="hoveredRating.set(0)">
+                                @for (star of [1, 2, 3, 4, 5]; track $index) {
+                                    <button
+                                        type="button"
+                                        class="text-2xl transition-colors duration-150 cursor-pointer"
+                                        (click)="newRating.set(star)"
+                                        (mouseenter)="hoveredRating.set(star)"
+                                        [class.text-primary]="star <= (hoveredRating() || newRating())"
+                                        [class.text-base-300]="star > (hoveredRating() || newRating())"
+                                    >
+                                        ★
+                                    </button>
+                                }
+                            </div>
+                        </div>
+
+                        <!-- Message -->
+                        <div class="flex flex-col gap-2">
+                            <label for="message" class="block mb-1 text-sm font-bold">Votre commentaire</label>
+                            <textarea
+                                id="message"
+                                rows="4"
+                                class="textarea textarea-bordered w-full"
+                                placeholder="Partagez votre expérience avec ce produit"
+                                [value]="newMessage()"
+                                (input)="newMessage.set($any($event.target).value)"
+                                required
+                            ></textarea>
+                        </div>
+
+                        <!-- Bouton publier -->
+                        <button type="submit" class="btn btn-primary max-w-[200px]">Publier</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Liste des commentaires -->
+            <div class="space-y-6">
+                @for (comment of comments(); track comment.date) {
+                    <div class="border-b pb-4">
+                        <div class="flex justify-between items-center mb-1">
+                            <span class="font-semibold">{{ comment.author }}</span>
+                            <span class="text-sm text-base-content/60">{{ comment.date | date: "d MMMM y" }}</span>
+                        </div>
+                        <div class="flex mb-2">
+                            @for (i of [1, 2, 3, 4, 5]; track i) {
+                                <span class="text-base" [class.text-yellow-400]="i <= comment.rating">★</span>
+                            }
+                        </div>
+                        <p class="text-base-content">{{ comment.message }}</p>
+                    </div>
+                }
+                <a
+                    class="btn btn-outline btn-sm"
+                    [routerLink]="['/produit', product()?.id, 'commentaires']"
+                    (click)="scrollToTop()"
+                >
+                    Charger plus de commentaires</a
+                >
+            </div>
+        </section>
+
+        <section class="mt-24">
+            <h2 class="text-2xl font-bold mb-6">Ces produits pourraient vous intéresser</h2>
+        </section>
+    </section>
+</app-section-wrapper>

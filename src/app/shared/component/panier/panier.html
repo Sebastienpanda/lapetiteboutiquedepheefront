@@ -1,0 +1,53 @@
+<button
+    #cartButtonRef
+    class="relative cursor-pointer"
+    type="button"
+    aria-label="Panier"
+    aria-haspopup="dialog"
+    [attr.aria-expanded]="isCartOpen()"
+    aria-controls="cart-menu"
+    (click)="toggleCart()"
+>
+    <lucide-icon
+        [img]="ShoppingBag"
+        size="26"
+        class="text-base-content hover:text-primary transition-colors duration-300 ease-in-out"
+    />
+
+    @if (cartItemsCount() > 0) {
+        <span
+            class="absolute -top-1 -right-1 bg-primary text-base-100 text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center"
+        >
+        {{ cartItemsCount() }}
+    </span>
+    }
+</button>
+
+@if (isCartOpen()) {
+    <div
+        #cartMenuRef
+        id="cart-menu"
+        aria-label="Contenu du panier"
+        class="absolute top-full w-[320px] bg-base-100 border border-grey rounded-lg shadow-lg p-4 right-0 transition duration-200 ease-out transform opacity-0 scale-95 animate-[fade-in_.2s_ease-in-out_forwards] z-11"
+    >
+        @for (item of lastCartItems(); track item.id) {
+            <div class="flex items-start gap-4 p-2 rounded-md last:border-none border-b border-muted">
+                <div class="bg-base-100 p-1 rounded border border-grey shrink-0">
+                    <app-responsive-image
+                        [image]="item.product.images"
+                        [alt]="item.product.name"
+                        class="size-16 rounded-md"
+                    />
+                </div>
+                <div class="flex-1">
+                    <p class="font-semibold text-sm">{{ item.product.name }}</p>
+                    <p class="text-sm text-base-content">{{ item.quantity }} article(s) à {{ item.product.price }} €</p>
+                </div>
+            </div>
+        }
+        @if (cartService.hasMoreThanThreeItems()) {
+            <p class="text-sm text-center text-muted mt-4">Et {{ cartItemsCount() - 3 }} article(s) de plus…</p>
+        }
+        <a routerLink="/panier" class="btn btn-primary w-full mt-4">Voir son panier</a>
+    </div>
+}

@@ -1,0 +1,55 @@
+<dialog #dialogRef class="modal modal-bottom sm:modal-middle">
+    <div class="modal-box space-y-4">
+        <h3 class="text-lg font-bold">Ajouter à une liste d’envies</h3>
+        <p class="text-sm text-base-content/70">
+            @if (wishlists().length > 0) { Choisissez une liste existante ou créez-en une nouvelle. } @else { Aucune
+            liste n’a été créée. Créez-en une nouvelle. }
+        </p>
+
+        <div class="space-y-2 overflow-y-auto max-h-60">
+            @for (list of wishlists(); track list.id) {
+            <button
+                (click)="select(list)"
+                class="bg-base-100 border-1 border-base-content w-full px-4 py-2 rounded-md hover:shadow-md flex items-center justify-between cursor-pointer"
+            >
+                <span class="font-medium">{{ list.name }}</span>
+            </button>
+            }
+        </div>
+
+        <div class="border-t-1 border-base-200 pt-4">
+            @if (!showCreate()) {
+            <button class="btn btn-primary btn-sm w-full" (click)="showCreate.set(true)">
+                <lucide-icon [img]="Plus" class="size-4 mr-2" />
+                Créer une nouvelle liste
+            </button>
+            } @else {
+            <div class="space-y-4">
+                <label for="name" class="label">Nouvelle liste</label>
+                <input
+                    id="name"
+                    type="text"
+                    [value]="newListName()"
+                    (input)="onInputChange($event)"
+                    placeholder="Nom de la nouvelle liste"
+                    class="input input-bordered w-full"
+                />
+
+                <div class="flex gap-2">
+                    <button class="btn btn-sm flex-1" (click)="handleCancel()">Annuler</button>
+                    <button class="btn btn-primary btn-sm flex-1" (click)="createNew()">
+                        <span class="mr-1">+</span> Créer et ajouter
+                    </button>
+                </div>
+            </div>
+            }
+        </div>
+
+        <div class="modal-action">
+            <form method="dialog">
+                <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+                <button class="btn">Fermer</button>
+            </form>
+        </div>
+    </div>
+</dialog>

@@ -1,0 +1,29 @@
+@if (thumbnail()) {
+	<picture class="w-full aspect-square rounded-md block">
+		<source [srcset]="srcWebp()" type="image/webp" />
+		<img
+			[src]="src()"
+			[alt]="alt()"
+			loading="lazy"
+			(load)="loaded = true"
+			class="w-full aspect-square object-cover rounded-md transition duration-300 ease-in-out opacity-0 scale-105"
+			[class.opacity-100]="loaded"
+			[class.scale-100]="loaded"
+		/>
+	</picture>
+} @else {
+	<div class="w-full h-full">
+		<picture class="w-full h-full">
+			<source [srcset]="srcWebp()" type="image/webp" />
+			<img
+				[src]="src()"
+				[alt]="alt()"
+				loading="lazy"
+				(load)="loaded = true"
+				class="w-full h-full object-cover transition duration-300 ease-in-out opacity-0 scale-105"
+				[class.opacity-100]="loaded"
+				[class.scale-100]="loaded"
+			/>
+		</picture>
+	</div>
+}

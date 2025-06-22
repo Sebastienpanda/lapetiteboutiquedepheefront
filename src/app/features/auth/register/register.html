@@ -1,0 +1,107 @@
+<section class="h-[100dvh] flex items-center justify-center md:flex-row">
+    <div class="md:w-1/2 flex items-center justify-center p-8">
+        <div class="space-y-6 w-full max-w-md">
+            <a routerLink="/" class="text-sm text-primary flex items-center gap-2">
+                <lucide-icon [img]="ArrowLeft" size="18" />
+                Retour à l'accueil
+            </a>
+            <h1 class="text-3xl">Créer un compte</h1>
+            <p class="text-sm text-base-content/70">
+                Inscrivez-vous pour découvrir tous nos produits<br />
+                <span class="text-xs text-base-content/50 italic">* Champs obligatoires</span>
+            </p>
+
+            <form class="flex flex-col gap-4" [formGroup]="form" (submit)="onSubmit()" novalidate>
+                <app-input-field
+                    [id]="'name'"
+                    [label]="'Nom'"
+                    [required]="true"
+                    [placeholder]="'Votre pseudo'"
+                    [control]="form.controls.name"
+                    [errorMessages]="{
+						required: 'Nom est requis',
+						minlength: 'Le nom doit contenir au moins 2 caractères',
+					}"
+                />
+
+                <app-input-field
+                    [id]="'email'"
+                    [label]="'Email'"
+                    [type]="'email'"
+                    [required]="true"
+                    [placeholder]="'Votre email'"
+                    [control]="form.controls.email"
+                    [errorMessages]="{
+						required: 'Email est requis',
+						email: 'Adresse email invalide',
+					}"
+                />
+
+                <app-input-field
+                    [id]="'password'"
+                    [label]="'Mot de passe'"
+                    [type]="'password'"
+                    [placeholder]="'*********'"
+                    [control]="form.controls.password"
+                    [required]="true"
+                    [errorMessages]="{
+						required: 'Le mot de passe est requis',
+						minlength: 'Min. 12 caractères',
+					}"
+                    [showPasswordTips]="true"
+                    [tipsContent]="[
+						'12 caractères minimum',
+						'1 majuscule, 1 minuscule',
+						'1 chiffre et 1 symbole',
+						'Évitez les mots simples',
+					]"
+                />
+
+                <app-input-field
+                    [id]="'confirmPassword'"
+                    [label]="'Confirmer le mot de passe'"
+                    [type]="'password'"
+                    [placeholder]="'Répétez le mot de passe'"
+                    [required]="true"
+                    [control]="form.controls.confirmPassword"
+                    [errorMessages]="{
+						required: 'La confirmation est requise',
+					}"
+                    [confirmPassword]="true"
+                />
+
+                <button type="submit" class="btn btn-primary w-full mt-8">Créer un compte</button>
+
+                <div class="divider text-sm text-base-content/50">Ou continuer avec</div>
+
+                <div class="flex gap-2">
+                    <button type="button" class="btn btn-outline w-full gap-2">
+                        <img src="https://www.svgrepo.com/show/475656/google-color.svg" class="w-5 h-5" alt="Google" />
+                        Google
+                    </button>
+                </div>
+            </form>
+
+            <div class="text-center text-sm text-base-content/70">
+                Vous avez déjà un compte ?
+                <a
+                    routerLink="/connexion"
+                    class="relative inline-block text-primary font-medium after:absolute after:left-0 after:bottom-0 after:h-[2px] after:w-0 after:bg-primary after:transition-all after:duration-300 hover:after:w-full"
+                >
+                    Se connecter
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="hidden md:relative md:block w-1/2 md:h-[100dvh]">
+        <img src="/photo-1611673038517-b964c31f0ed7.jpg" alt="d’illustration" class="w-full h-full object-cover" />
+        <div
+            class="absolute bottom-20 left-4 right-4 bg-base-100/70 backdrop-blur-md rounded-box p-4 text-sm text-base-content shadow-md"
+        >
+            <p class="italic mb-2">"Chaque création commence par une idée. La vôtre commence ici."</p>
+            <p class="font-semibold">Bloom Artisans</p>
+            <p class="text-base-content/50">Collectif d'artistes</p>
+        </div>
+    </div>
+</section>

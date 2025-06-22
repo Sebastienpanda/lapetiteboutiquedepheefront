@@ -1,0 +1,98 @@
+<section class="mb-20">
+    <div class="text-center mb-12 bg-[#F9F5F6] py-30">
+        <div class="w-full max-w-2xl mx-auto text-center">
+            <h1 class="text-4xl md:text-5xl mb-6">Notre Boutique</h1>
+            <p class="text-lg text-grey mb-8">
+                Découvrez notre collection de stickers, illustrations, porte-clés et livres de coloriage créés avec
+                passion
+            </p>
+
+            <div class="mt-6 max-w-md mx-auto relative">
+                <input
+                    type="text"
+                    placeholder="Rechercher un produit..."
+                    class="input input-bordered w-full pr-10"
+                    (input)="onSearchInput($event)"
+                />
+
+                <div class="absolute right-3 top-1/2 -translate-y-1/2 text-base-content/70 pointer-events-none z-1">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <circle cx="11" cy="11" r="8"/>
+                        <line x1="21" x2="16.65" y1="21" y2="16.65"/>
+                    </svg>
+                </div>
+            </div>
+        </div>
+    </div>
+    <app-section-wrapper>
+        <div class="grid lg:grid-cols-[300px_1fr] gap-12">
+            <aside class="bg-base-100 p-4 rounded-box shadow-md space-y-4 lg:sticky lg:top-40 self-start">
+                <h2 class="text-xl font-bold">Filtres</h2>
+
+                <div class="collapse collapse-arrow border border-base-200 rounded-box">
+                    <input type="checkbox" checked/>
+                    <div class="collapse-title font-semibold text-base">Catégories</div>
+                    <div class="collapse-content space-y-2">
+                        @for (cate of categories(); track cate.id) {
+                            <label class="flex items-center justify-between cursor-pointer">
+                                <div class="flex items-center gap-2">
+                                    <input
+                                        type="radio"
+                                        name="category"
+                                        [value]="cate.id"
+                                        [checked]="selectedCategoryId() === cate.id"
+                                        (change)="selectedCategoryId.set(cate.id); page.set(1)"
+                                        class="radio radio-sm radio-primary"
+                                    />
+                                    <span class="text-sm">{{ cate.nom }}</span>
+                                </div>
+                            </label>
+                        }
+                    </div>
+                </div>
+            </aside>
+
+            <!-- PRODUITS -->
+            <div>
+                <p class="text-sm mb-4 text-base-content/70">Affichage de {{ products().length }} produits</p>
+                <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                    @for (product of products(); track product.id) {
+                        <a
+                            class="card shadow-sm cursor-pointer rounded-md overflow-hidden"
+                            role="link"
+                            [routerLink]="['/boutique', product.slug]"
+                        >
+                            <!--                            <app-responsive-image-->
+                            <!--                                [image]="product.coverImage"-->
+                            <!--                                [alt]="product.name"-->
+                            <!--                                class="h-60 size-full"-->
+                            <!--                            />-->
+                            <div class="card-body bg-base-100 p-4">
+                                                        <span class="text-sm text-neutral uppercase tracking-widest">
+                                                            {{ product.category.nom }}
+                                                        </span>
+                                <h3 class="text-lg truncate">{{ product.name }}</h3>
+                                <p class="text-base text-base-content">{{ product.price }}€</p>
+                                <div class="mt-4">
+                                    @if (!isInCart(product.id)) {
+                                        <app-button (click)="addToCart($event,product)" size="sm" class="w-full"
+                                        >Ajouter au panier
+                                        </app-button>
+                                    } @else {
+                                        <p class="text-sm text-success text-center w-full">Déjà dans le panier</p>
+                                    }
+                                </div>
+                            </div>
+                        </a>
+                    }
+                </div>
+                <app-pagination
+                    class="mt-10"
+                    [currentPage]="currentPage()"
+                    [totalPages]="totalPages()"
+                    (pageChange)="onPageChange($event)"
+                />
+            </div>
+        </div>
+    </app-section-wrapper>
+</section>

@@ -1,0 +1,59 @@
+@if (isBrowser) {
+    <swiper-container
+        #swiperRef
+        init="false"
+        class="mt-16"
+        id="product-swiper"
+        aria-roledescription="carousel"
+        tabindex="0"
+    >
+        @for (item of data(); track item.id) {
+            <swiper-slide
+                [attr.aria-label]="'Slide ' + item.id + ' sur ' + data.length"
+                class="hover:shadow-md transition duration-300 ease-in-out rounded-lg overflow-hidden group"
+            >
+                <ng-container *ngTemplateOutlet="template(); context: { $implicit: item }"></ng-container>
+            </swiper-slide>
+        }
+    </swiper-container>
+
+    <div class="flex justify-center gap-3 mt-12" aria-label="Navigation du carrousel">
+        <button
+            type="button"
+            class="btn btn-sm btn-circle border border-base-content text-primary bg-base-100 hover:bg-base-200 transition"
+            #prevEl
+            aria-label="Slide précédente"
+        >
+            <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                viewBox="0 0 24 24"
+            >
+                <path d="M15 18l-6-6 6-6"/>
+            </svg>
+        </button>
+
+        <button
+            type="button"
+            class="btn btn-sm btn-circle border border-base-content text-primary bg-base-100 hover:bg-base-200 transition"
+            #nextEl
+            aria-label="Slide suivante"
+        >
+            <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                viewBox="0 0 24 24"
+            >
+                <path d="M9 6l6 6-6 6"/>
+            </svg>
+        </button>
+    </div>
+}
