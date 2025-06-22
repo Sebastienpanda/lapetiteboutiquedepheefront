@@ -162,17 +162,23 @@ export class CartService {
         }
     }
 
-    // async removeItemFromCart(documentId: string) {
-    //     try {
-    //         await firstValueFrom(
-    //             this.http.delete(`${environment.apiUrl}/cart-items/${documentId}`),
-    //         );
-    //
-    //         this._cartItems.update((items) =>
-    //             items.filter((item) => item.documentId !== documentId),
-    //         );
-    //     } catch (error) {
-    //         console.error('Erreur lors de la suppression de l\'item :', error);
-    //     }
-    // }
+    async removeItemFromCart(itemId: string) {
+        try {
+            const { error } = await supabase
+                .from('cart_items')
+                .delete()
+                .eq('id', itemId);
+
+            if (error) {
+                console.error('Erreur lors de la suppression de l\'item :', error.message);
+                return;
+            }
+            
+            this.cartItems.update((items) =>
+                items.filter((item) => item.id !== itemId),
+            );
+        } catch (error) {
+            console.error('Erreur inattendue lors de la suppression de l\'item :', error);
+        }
+    }
 }

@@ -1,9 +1,9 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
-import type { Product } from '@core/products/product-model';
 import { environment } from '@environments/environment';
 import { from, map, shareReplay } from 'rxjs';
 import { supabase } from '@auth/supabase-client';
+import { Product } from '@core/products/product-model';
 
 @Injectable({
     providedIn: 'root',
@@ -21,8 +21,41 @@ export class ProductsService {
     getProductBySlug() {
         const slug = this.slug();
         if (!slug) return null;
-        return this.http.get<Product>(`${this.apiUrl}/products/show/${slug}`).pipe(
-            shareReplay(1),
+
+        return from(
+            supabase
+                .from('products')
+                .select(`
+                id,
+                name,
+                description,
+                price,
+                stock,
+                show_on_homepage,
+                slug,
+                type,
+                categorie:categories (
+                    id,
+                    name
+                ),
+                images:product_images (
+                    id,
+                    image_url,
+                    cover
+                )
+            `)
+                .eq('slug', slug)
+                .single(),
+        ).pipe(
+            map(({ data, error }) => {
+                if (error) throw error;
+                const product: Product = {
+                    ...data,
+                    categorie: Array.isArray(data.categorie) ? data.categorie[0] : data.categorie,
+                };
+
+                return product;
+            }),
         );
     }
 
@@ -69,16 +102,59 @@ export class ProductsService {
         );
     }
 
-    getProductsPaginated(
-        page = 1,
-        limit = 6,
-    ) {
-        const params = new HttpParams().set('page', page.toString()).set('limit', limit.toString());
+    getProductsPaginated(page = 1, limit = 6, search = '', categoryId: number | null = null) {
+        const fromIndex = (page - 1) * limit;
+        const toIndex = fromIndex + limit - 1;
 
+        let query = supabase
+            .from('products')
+            .select(`
+			id,
+			name,
+			description,
+			price,
+			stock,
+			show_on_homepage,
+			type,
+			slug,
+			categorie:categories (
+				id,
+				name
+		 ),
+			images:product_images (
+				id,
+				image_url,
+				cover
+			)
+		`, { count: 'exact' })
+            .eq('images.cover', true)
+            .range(fromIndex, toIndex);
 
-        return this.http
-            .get<{ data: Product[]; totalPages: number; page: number; }>(
-                `${environment.apiUrl}/products/all?${params.toString()}`,
-            );
+        if (search) {
+            query = query.ilike('name', `%${search}%`);
+        }
+
+        if (categoryId) {
+            query = query.eq('categorie_id', categoryId);
+        }
+
+        return from(query).pipe(
+            map(({ data, count, error }) => {
+                if (error) throw new Error(error.message);
+
+                const products: Product[] = data.map((item: any) => ({
+                    ...item,
+                    categorie: item.categorie,
+                    images: item.images,
+                }));
+
+                return {
+                    data: products,
+                    totalPages: count ? Math.ceil(count / limit) : 1,
+                    page,
+                };
+            }),
+        );
     }
+
 }

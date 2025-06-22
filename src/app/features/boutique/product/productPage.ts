@@ -137,19 +137,15 @@ export default class ProductPage implements AfterViewInit {
         const next = this.nextEl()?.nativeElement;
 
         if (swiperEl && thumbsEl && prev && next) {
-            // const productImagesCount = this.product()?.images?.reduce(
-            //     (acc, gallery) => acc + (gallery.images?.length ?? 0),
-            //     0,
-            // );
-
-            // const shouldLoop = productImagesCount! > 1;
+            const productImagesCount = this.product()?.images?.length ?? 0;
+            const shouldLoop = productImagesCount > 1;
 
             Object.assign(thumbsEl, {
                 slidesPerView: 3,
                 spaceBetween: 8,
                 watchSlidesProgress: true,
                 freeMode: true,
-                loop: false,
+                loop: shouldLoop,
                 breakpoints: {
                     768: {
                         slidesPerView: 4,
@@ -165,7 +161,7 @@ export default class ProductPage implements AfterViewInit {
                     nextEl: next,
                     prevEl: prev,
                 },
-                loop: false,
+                loop: shouldLoop,
                 zoom: true,
                 thumbs: { swiper: thumbsEl },
             });

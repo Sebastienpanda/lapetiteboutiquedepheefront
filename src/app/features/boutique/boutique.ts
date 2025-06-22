@@ -9,6 +9,7 @@ import { SectionWrapper } from '@shared/component/ui/sectionWrapper/section-wrap
 import { toast } from 'ngx-sonner';
 import { Button } from '@shared/component/ui/button/button';
 import { toSignal } from '@angular/core/rxjs-interop';
+import { ResponsiveImageComponent } from '@shared/component/response-images/responsive-image';
 
 @Component({
     selector: 'app-boutique',
@@ -19,6 +20,7 @@ import { toSignal } from '@angular/core/rxjs-interop';
         Pagination,
         SectionWrapper,
         Button,
+        ResponsiveImageComponent,
     ],
 })
 export default class BoutiqueComponent implements OnInit {
@@ -40,11 +42,15 @@ export default class BoutiqueComponent implements OnInit {
     );
 
     loadProducts() {
+        const page = this.page();
+        const limit = this.limit();
+        const search = this.search();
+        const categoryId = this.selectedCategoryId();
+
         this.productsService
-            .getProductsPaginated(this.page(), this.limit())
+            .getProductsPaginated(page, limit, search, categoryId)
             .subscribe({
                 next: (res) => {
-                    console.log(res);
                     this.products.set(res.data);
                     this.totalPages.set(res.totalPages);
                     this.currentPage.set(res.page);

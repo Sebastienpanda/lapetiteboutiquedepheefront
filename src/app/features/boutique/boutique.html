@@ -44,7 +44,7 @@
                                         (change)="selectedCategoryId.set(cate.id); page.set(1)"
                                         class="radio radio-sm radio-primary"
                                     />
-                                    <span class="text-sm">{{ cate.nom }}</span>
+                                    <span class="text-sm">{{ cate.name }}</span>
                                 </div>
                             </label>
                         }
@@ -62,14 +62,14 @@
                             role="link"
                             [routerLink]="['/boutique', product.slug]"
                         >
-                            <!--                            <app-responsive-image-->
-                            <!--                                [image]="product.coverImage"-->
-                            <!--                                [alt]="product.name"-->
-                            <!--                                class="h-60 size-full"-->
-                            <!--                            />-->
+                            <app-responsive-image
+                                [image]="product.images"
+                                [alt]="product.name"
+                                class="h-60 size-full"
+                            />
                             <div class="card-body bg-base-100 p-4">
                                                         <span class="text-sm text-neutral uppercase tracking-widest">
-                                                            {{ product.category.nom }}
+                                                            {{ product.categorie.name }}
                                                         </span>
                                 <h3 class="text-lg truncate">{{ product.name }}</h3>
                                 <p class="text-base text-base-content">{{ product.price }}€</p>

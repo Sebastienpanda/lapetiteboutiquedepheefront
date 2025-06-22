@@ -20,10 +20,10 @@ export const routes: Routes = [
     //   path: "test",
     //   loadComponent: () => import("@features/test/test"),
     // },
-    // {
-    //   path: "success",
-    //   loadComponent: () => import("@features/paiment/success"),
-    // },
+    {
+        path: 'success',
+        loadComponent: () => import('@features/paiment/success'),
+    },
     {
         path: '**',
         loadComponent: () => import('@features/not-found/not-found'),

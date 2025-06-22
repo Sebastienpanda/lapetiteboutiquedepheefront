@@ -6,6 +6,7 @@ import { CheckoutService } from '@core/checkout/checkout-service';
 import { SectionWrapper } from '@shared/component/ui/sectionWrapper/section-wrapper';
 import { DecimalPipe } from '@angular/common';
 import { ResponsiveImageComponent } from '@shared/component/response-images/responsive-image';
+import { supabase } from '@auth/supabase-client';
 
 @Component({
     selector: 'app-cart',
@@ -45,19 +46,34 @@ export default class Cart implements OnInit {
     }
 
     async checkoutNow() {
+        const { data, error } = await supabase.functions.invoke('create-checkout-session', {
+            body: {
+                cartItems: this.cartItems().map(item => ({
+                    name: item.product.name,
+                    price: item.price_at_add,
+                    quantity: item.quantity,
+                    images: [item.product.images[0]?.image_url || ''],
+                })),
+            },
+        });
 
+        if (error) {
+            console.error('Erreur lors de la création de la session Stripe:', error);
+            return;
+        }
 
-        // try {
-        //     const res = await firstValueFrom(
-        //         // this.checkout.createCheckoutSession(items),
-        //     );
-        //     window.location.href = res.url;
-        // } catch (error) {
-        //     console.error('Erreur lors de la redirection Stripe :', error);
-        // }
+        if (data?.url) {
+            window.location.href = data.url;
+        } else {
+            console.error('URL de redirection non reçue depuis la function');
+        }
     }
 
-    removeItem(item: CartItem) {
-
+    async removeItem(item: CartItem) {
+        try {
+            await this.cart.removeItemFromCart(item.id);
+        } catch (error) {
+            console.error('Erreur lors de la suppression de l\'item :', error);
+        }
     }
 }

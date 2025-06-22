@@ -59,7 +59,8 @@ export class FavorisService {
                     application_user_id: userId,
                     product_id: productId,
                 },
-            ]),
+            ]).select('id')
+                .single(),
         );
     }
 

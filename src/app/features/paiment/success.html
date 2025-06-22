@@ -1,0 +1,51 @@
+<app-section-wrapper>
+    <section class="py-16 text-center">
+        <h1 class="text-3xl font-bold text-success">Merci pour votre commande !</h1>
+
+        @if (loading()) {
+        <p class="mt-4 text-gray-500">Chargement de votre commande...</p>
+        } @else if (order()) {
+        <p class="mt-4 text-base-content">Commande n° <strong>{{ order().id }}</strong></p>
+
+        <div class="mt-8 max-w-3xl mx-auto text-left space-y-6">
+            <h2 class="text-xl font-semibold">Résumé de la commande</h2>
+
+            <div class="space-y-4">
+                @for (item of order().items; track item.name) {
+                <div class="flex justify-between border-b pb-2">
+                    <div>
+                        <img [src]="item.image" [alt]="item.name" />
+                        <p class="font-medium">{{ item.name }}</p>
+                        <p class="text-sm text-gray-500">{{ item.quantity }} x {{ item.price }}€</p>
+                    </div>
+                    <p class="font-semibold">{{ item.price * item.quantity }}€</p>
+                </div>
+                }
+            </div>
+
+            <div class="border-t pt-4">
+                <p class="flex justify-between font-bold text-lg">
+                    <span>Total</span>
+                    <span>{{ order().total }} €</span>
+                </p>
+            </div>
+
+            <div class="mt-6">
+                <h3 class="font-semibold text-lg">Adresse de livraison</h3>
+                <p class="text-sm leading-relaxed">
+                    {{ order().customer.name }}<br />
+                    {{ order().customer.address.line1 }}<br />
+                    {{ order().customer.address.postal_code }} {{ order().customer.address.city }}<br />
+                    {{ order().customer.address.country }}
+                </p>
+            </div>
+
+            <div class="mt-8 text-center">
+                <a routerLink="/" class="btn btn-primary">Retour à l’accueil</a>
+            </div>
+        </div>
+        } @else {
+        <p class="text-error mt-4">Impossible de charger la commande.</p>
+        }
+    </section>
+</app-section-wrapper>

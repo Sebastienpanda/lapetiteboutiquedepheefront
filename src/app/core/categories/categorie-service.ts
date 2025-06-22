@@ -1,8 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import type { Categorie } from '@core/categories/categorie-model';
-import { environment } from '@environments/environment';
-import { shareReplay } from 'rxjs';
+import { from, map, shareReplay } from 'rxjs';
+import { supabase } from '@auth/supabase-client';
 
 @Injectable({
     providedIn: 'root',
@@ -11,10 +10,16 @@ export class CategoriesService {
     private readonly http = inject(HttpClient);
 
     getAllCategories() {
-        return this.http
-            .get<Categorie[]>(`${environment.apiUrl}/categories/all`)
-            .pipe(
-                shareReplay(1),
-            );
+        return from(
+            supabase
+                .from('categories')
+                .select('*'),
+        ).pipe(
+            map(({ data, error }) => {
+                if (error) throw new Error(error.message);
+                return data;
+            }),
+            shareReplay(1),
+        );
     }
 }

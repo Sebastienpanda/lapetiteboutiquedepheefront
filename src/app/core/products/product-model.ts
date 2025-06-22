@@ -10,8 +10,7 @@ export interface Product {
     show_on_homepage: boolean;
     slug: string;
     type: 'physique' | 'digital';
-    categorie_id: string;
-    coverImage: CoverImage;
-    images?: CoverImage[];
-    category: Categorie;
+    categorie: Categorie;
+    images: CoverImage[];
 }
+

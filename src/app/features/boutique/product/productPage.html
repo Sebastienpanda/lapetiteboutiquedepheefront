@@ -10,12 +10,15 @@
         <div>
             <div class="relative mb-4 w-full h-[550px] rounded-box overflow-hidden">
                 <swiper-container #swiperRef init="false" class="w-full h-full">
-                    @for (gallery of product()?.images; track gallery.id; ) {
+                    @for (img of product()?.images; track img.id; ) {
                         <swiper-slide>
-                            <div class="swiper-zoom-container w-full h-full">
-                                <!--                                <app-responsive-image [image]="gallery" [alt]="product()?.name"-->
-                                <!--                                                      class="size-full object-cover"/>-->
-                            </div>
+                            <figure class="swiper-zoom-container w-full h-full">
+                                <picture class="size-full block">
+                                    <img [src]="img.image_url" [alt]="product()?.name"
+                                         class="size-full object-cover"
+                                         loading="lazy"/>
+                                </picture>
+                            </figure>
                         </swiper-slide>
                     }
                 </swiper-container>
@@ -63,10 +66,15 @@
             </div>
 
             <swiper-container #thumbsSwiper init="false" class="w-full">
-                @for (gallery of product()?.images; track gallery.id; ) {
-                    <swiper-slide class="cursor-pointer">
-                        <!--                        <app-responsive-image [image]="gallery" [alt]="product()?.name"-->
-                        />
+                @for (img of product()?.images; track img.id; ) {
+                    <swiper-slide>
+                        <figure class="swiper-zoom-container size-full h-20">
+                            <picture class="size-full block">
+                                <img [src]="img.image_url" [alt]="product()?.name"
+                                     class="size-full object-cover"
+                                     loading="lazy"/>
+                            </picture>
+                        </figure>
                     </swiper-slide>
                 }
             </swiper-container>
@@ -85,7 +93,7 @@
                 </div>
             </div>
             <span
-                class="text-sm tracking-wide text-base-content/60 uppercase">{{ product()?.category?.nom }}</span>
+                class="text-sm tracking-wide text-base-content/60 uppercase">{{ product()?.categorie?.name }}</span>
 
             <h1 class="text-3xl mt-4 leading-tight">{{ product()?.name }}</h1>
 

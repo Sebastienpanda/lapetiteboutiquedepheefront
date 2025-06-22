@@ -13,10 +13,10 @@ export const serverRoutes: ServerRoute[] = [
     //   path: "test",
     //   renderMode: RenderMode.Client,
     // },
-    // {
-    //   path: "success",
-    //   renderMode: RenderMode.Client,
-    // },
+    {
+        path: 'success',
+        renderMode: RenderMode.Client,
+    },
     {
         path: 'inscription',
         renderMode: RenderMode.Client,
