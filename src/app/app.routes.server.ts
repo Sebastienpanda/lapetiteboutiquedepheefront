@@ -9,10 +9,10 @@ export const serverRoutes: ServerRoute[] = [
         path: 'panier',
         renderMode: RenderMode.Client,
     },
-    // {
-    //   path: "test",
-    //   renderMode: RenderMode.Client,
-    // },
+    {
+        path: 'test',
+        renderMode: RenderMode.Client,
+    },
     {
         path: 'success',
         renderMode: RenderMode.Client,
@@ -29,22 +29,26 @@ export const serverRoutes: ServerRoute[] = [
     //   path: "confirmation-email",
     //   renderMode: RenderMode.Client,
     // },
-    // {
-    //   path: "profil",
-    //   renderMode: RenderMode.Client,
-    // },
-    // {
-    //   path: "profil/editer-profil",
-    //   renderMode: RenderMode.Client,
-    // },
-    // {
-    //   path: "profil/favoris",
-    //   renderMode: RenderMode.Client,
-    // },
-    // {
-    //   path: "profil/listes-envie",
-    //   renderMode: RenderMode.Client,
-    // },
+    {
+        path: 'profil',
+        renderMode: RenderMode.Client,
+    },
+    {
+        path: 'profil/editer-profil',
+        renderMode: RenderMode.Client,
+    },
+    {
+        path: 'profil/favoris',
+        renderMode: RenderMode.Client,
+    },
+    {
+        path: 'profil/commandes',
+        renderMode: RenderMode.Client,
+    },
+    {
+        path: 'profil/listes-envie',
+        renderMode: RenderMode.Client,
+    },
     {
         path: 'boutique',
         renderMode: RenderMode.Client,

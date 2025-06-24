@@ -84,7 +84,7 @@ export default class ProductPage implements AfterViewInit {
 
     openWishlistModal() {
         this.selectedProduct.set(this.product());
-        // this.wishlistModal()?.open();
+        this.wishlistModal()?.open();
     }
 
     readonly comments = signal<Array<Comment>>([
@@ -195,11 +195,11 @@ export default class ProductPage implements AfterViewInit {
         const userId = this.userStore.user()?.id;
         if (!product || !userId) return;
 
-        // this.wishlistService
-        //     .addToWishlist(product, userId, wishlist.name)
-        //     .then(() => {
-        //         toast.success('Produit ajouté à la wishlist !');
-        //     })
-        //     .catch(() => toast.error('Erreur lors de l’ajout à la wishlist.'));
+        this.wishlistService
+            .addToWishlist(product, userId, wishlist.name)
+            .then(() => {
+                toast.success('Produit ajouté à la wishlist !');
+            })
+            .catch(() => toast.error('Erreur lors de l’ajout à la wishlist.'));
     }
 }

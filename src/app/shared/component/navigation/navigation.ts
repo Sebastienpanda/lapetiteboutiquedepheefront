@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject, output, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, effect, inject, output, signal } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { userStore } from '@core/state/user/user-store';
 import { navigationData } from '@shared/component/navigation/navigation-data';
@@ -16,5 +16,11 @@ export class Navigation {
     readonly navigations = signal(navigationData);
     protected readonly Menu = Menu;
     menuClick = output<void>();
-    readonly user = inject(userStore);
+    protected readonly userStore = inject(userStore);
+
+    constructor() {
+        effect(async () => {
+            await this.userStore.loadUser();
+        });
+    }
 }

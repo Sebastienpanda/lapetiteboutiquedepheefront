@@ -1,0 +1,27 @@
+<div class="card bg-base-100 border border-base-200 p-6 rounded-lg">
+    <h3 class="text-lg font-semibold mb-1">Comptes liés</h3>
+    <p class="text-sm text-base-content/60 mb-6">Gérez vos comptes externes connectés</p>
+
+    <div class="bg-base-100 border border-base-300 rounded-xl p-4 flex items-center justify-between">
+        <div class="flex items-center gap-3">
+            <div class="bg-white rounded-full w-8 h-8 flex items-center justify-center border">
+                <img src="https://www.svgrepo.com/show/475656/google-color.svg" alt="Google" class="w-5 h-5" />
+            </div>
+            <div>
+                <p class="font-medium">Google</p>
+                <p class="text-xs text-base-content/60">Connecté</p>
+            </div>
+        </div>
+        <button class="btn btn-sm btn-outline">Dissocier</button>
+    </div>
+</div>
+
+<div class="border border-error rounded-lg p-6 mt-6">
+    <h3 class="text-lg font-semibold text-error">Zone de danger</h3>
+    <p class="text-sm text-error/80 mb-4">Actions irréversibles sur votre compte</p>
+
+    <button class="btn bg-error text-base-100 hover:bg-error/80 w-full">
+        <lucide-icon [img]="Trash" class="mr-2" size="18" />
+        Supprimer mon compte
+    </button>
+</div>

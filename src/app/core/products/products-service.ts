@@ -1,6 +1,4 @@
-import { HttpClient } from '@angular/common/http';
-import { inject, Injectable, signal } from '@angular/core';
-import { environment } from '@environments/environment';
+import { Injectable, signal } from '@angular/core';
 import { from, map, shareReplay } from 'rxjs';
 import { supabase } from '@auth/supabase-client';
 import { Product } from '@core/products/product-model';
@@ -9,8 +7,6 @@ import { Product } from '@core/products/product-model';
     providedIn: 'root',
 })
 export class ProductsService {
-    private readonly apiUrl = environment.apiUrl;
-    private readonly http = inject(HttpClient);
     private readonly slug = signal<string | null>(null);
     readonly search = signal('');
 
@@ -80,14 +76,14 @@ export class ProductsService {
             favori:favoris (
                 id,
                 liked,
-                application_user_id
+                created_by
             )
         `)
             .eq('show_on_homepage', true)
             .eq('images.cover', true);
 
         if (userId) {
-            void query.eq('favori.application_user_id', userId);
+            void query.eq('favori.created_by', userId);
         }
 
         return from(query).pipe(

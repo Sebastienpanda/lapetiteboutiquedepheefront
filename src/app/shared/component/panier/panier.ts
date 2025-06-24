@@ -4,14 +4,13 @@ import {
     ElementRef,
     HostListener,
     inject,
-    type OnInit,
     signal,
     viewChild,
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { CartService } from '@core/cart/cart-service';
 import { ResponsiveImageComponent } from '@shared/component/response-images/responsive-image';
 import { LucideAngularModule, ShoppingBag } from 'lucide-angular';
+import { cartStore } from '@core/state/cart/cart-store';
 
 @Component({
     selector: 'app-panier',
@@ -19,19 +18,14 @@ import { LucideAngularModule, ShoppingBag } from 'lucide-angular';
     changeDetection: ChangeDetectionStrategy.OnPush,
     imports: [LucideAngularModule, RouterLink, ResponsiveImageComponent],
 })
-export class Panier implements OnInit {
+export class Panier {
     protected readonly ShoppingBag = ShoppingBag;
     readonly isCartOpen = signal(false);
-    readonly cartService = inject(CartService);
-    readonly cartItemsCount = inject(CartService).cartItemsCount;
+    readonly store = inject(cartStore);
+    readonly cartItemsCount = this.store.itemsCount;
+    readonly lastCartItems = this.store.lastItems;
     readonly cartMenuRef = viewChild('cartMenuRef', { read: ElementRef });
     readonly cartButtonRef = viewChild('cartButtonRef', { read: ElementRef });
-
-    readonly lastCartItems = this.cartService.lastCartItems;
-
-    ngOnInit(): void {
-        void this.cartService.initializeCartItemsFromServer();
-    }
 
     @HostListener('document:click', ['$event'])
     onClickOutside(event: MouseEvent) {

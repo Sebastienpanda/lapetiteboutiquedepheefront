@@ -1,0 +1,32 @@
+@for (commande of commandes(); track commande.id) {
+    <div class="flex items-center justify-between gap-4 border-b border-grey py-4">
+        <figure class="size-20 rounded-lg overflow-hidden flex-shrink-0">
+            @for (img of commande.order_items[0].product.images; track img.id) {
+                <picture class="size-full block">
+                    <img [src]="img.image_url" [alt]="commande.order_items[0].product.name"
+                         class="size-full object-cover"
+                         loading="lazy"/>
+                </picture>
+            }
+        </figure>
+
+        <!-- Infos -->
+        <div class="flex flex-col flex-1 gap-1">
+            <h3 class="text-base text-base-content">{{ commande.order_items[0].product.name }}</h3>
+            <p class="text-sm text-base-content/70">{{ commande.order_items[0].product.description }}</p>
+            <div class="flex items-center gap-2 text-sm mt-1">
+                <span class="text-primary font-semibold">{{ commande.order_items[0].product.price }} €</span>
+            </div>
+        </div>
+
+        <!-- Actions -->
+        <div class="flex flex-col items-end gap-2">
+            <!--			<app-button size="sm" variant="outline" [icon]="ShoppingCart" (click)="onAddToCart(product)">-->
+            <!--				Ajouter-->
+            <!--			</app-button>-->
+            <!--			<app-button size="sm" variant="outline" [icon]="Trash2" (click)="onRemove(product.id)">-->
+            <!--				Supprimer-->
+            <!--			</app-button>-->
+        </div>
+    </div>
+}

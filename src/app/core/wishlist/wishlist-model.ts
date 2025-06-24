@@ -1,8 +1,7 @@
-import type { WishlistItems } from "@core/wishlist/wishlist-item-model";
+import type { WishlistItems } from '@core/wishlist/wishlist-item-model';
 
 export interface Wishlist {
-	id: number;
-	documentId: string;
-	name: string;
-	wishlist_items: WishlistItems[];
+    id: number;
+    name: string;
+    wishlist_items: WishlistItems[];
 }

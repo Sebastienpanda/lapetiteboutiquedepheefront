@@ -23,6 +23,8 @@ import { debounceTime, Subject } from 'rxjs';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { toast } from 'ngx-sonner';
 import { Button } from '@shared/component/ui/button/button';
+import { cartStore } from '@core/state/cart/cart-store';
+import { CartItem } from '@core/cart/cart-item-model';
 
 @Component({
     selector: 'app-product',
@@ -73,6 +75,7 @@ import { Button } from '@shared/component/ui/button/button';
 export class ProductIsFeatured implements OnInit {
     readonly productsService = inject(ProductsService);
     private readonly cart = inject(CartService);
+    private readonly cartStore = inject(cartStore);
     readonly featuredProducts = toSignal(this.productsService.getFeaturedProducts(), {
         initialValue: [],
     });
@@ -90,18 +93,29 @@ export class ProductIsFeatured implements OnInit {
             .subscribe((product) => this._toggleFavori(product));
     }
 
-    // isInCart(productId: number) {
-    // 	return this.cart.cartProductIds().has(productId);
-    // }
+    isInCart(productId: string) {
+        return this.cartStore.hasProduct(productId);
+    }
 
     addToCart(event: MouseEvent, product: any) {
         event.preventDefault();
         event.stopPropagation();
-        void this.cart.addToCart({
-            productId: product.id,
-            priceAtAdd: product.price,
+
+        const user = this.userStore.user();
+
+        const item: CartItem = {
+            id: product.id,
+            product,
+            price_at_add: product.price,
             quantity: 1,
-        });
+        };
+
+        if (!user) {
+            this.cartStore.addItem(item);
+            toast.success('Produit ajouté au panier (invité)');
+        } else {
+            void this.cart.addToCart(item);
+        }
     }
 
     private updateFavoriLocally(
@@ -155,7 +169,11 @@ export class ProductIsFeatured implements OnInit {
     onClickHeart(event: MouseEvent, product: Product) {
         event.preventDefault();
         event.stopPropagation();
-        console.log('Heart clicked for product:', product);
+        const user = this.userStore.user();
+        if (!user) {
+            toast.error('Veuillez vous connecter pour ajouter aux favoris.');
+            return;
+        }
         this.favoriClicks.next(product);
     }
 }

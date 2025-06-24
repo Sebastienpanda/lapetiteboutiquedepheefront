@@ -1,35 +1,42 @@
-import { inject } from '@angular/core';
-import type { UserState } from '@core/user/user-model';
-import { UserService } from '@core/user/user-service';
 import { patchState, signalStore, withMethods, withState } from '@ngrx/signals';
+import { supabase } from '@auth/supabase-client';
+import type { User as SupabaseUser } from '@supabase/supabase-js';
 
 export const userStore = signalStore(
     { providedIn: 'root' },
-    withState<UserState>({
+    withState<{
+        user: SupabaseUser | null;
+        loading: boolean;
+        error: string | null;
+    }>({
         user: null,
         loading: false,
         error: null,
     }),
 
     withMethods((store) => {
-        const userService = inject(UserService);
-
         return {
-            loadUser(supabaseId: string): void {
+            async loadUser() {
                 patchState(store, { loading: true, error: null });
 
-                userService.getUserBySupabaseId(supabaseId).subscribe({
-                    next: (res: any) => {
-                        const user = res;
-                        patchState(store, { user, loading: false });
-                    },
-                    error: (err) => {
-                        patchState(store, {
-                            error: err.message ?? 'Erreur inconnue',
-                            loading: false,
-                        });
-                    },
+                const { data, error } = await supabase.auth.getUser();
+
+                if (error || !data?.user) {
+                    console.log(error);
+                    console.log(data);
+                    patchState(store, {
+                        error: error?.message ?? 'Utilisateur non connecté',
+                        loading: false,
+                    });
+                    return;
+                }
+
+                patchState(store, {
+                    user: data.user,
+                    loading: false,
                 });
+
+                return data.user;
             },
         };
     }),

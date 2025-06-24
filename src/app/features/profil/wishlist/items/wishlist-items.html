@@ -1,0 +1,57 @@
+<p class="text-sm text-base-content/60 mb-2 uppercase tracking-wide">Mes listes</p>
+<div class="flex flex-wrap gap-2 border-b border-grey pb-4">
+    <div
+        class="cursor-pointer px-4 py-2 rounded-xl transition border"
+        [class.bg-primary]="selectedWishlistId() === null"
+        [class.text-base-200]="selectedWishlistId() === null"
+        (click)="selectedWishlistId.set(null)"
+    >
+        Toutes
+    </div>
+
+    @for (wishlist of wishlists(); track wishlist.id) {
+        <div
+            class="cursor-pointer px-4 py-2 rounded-xl transition border border-grey shadow-sm"
+            [class.bg-primary]="selectedWishlistId() === wishlist.id"
+            [class.text-base-200]="selectedWishlistId() === wishlist.id"
+            (click)="selectedWishlistId.set(wishlist.id)"
+        >
+            {{ wishlist.name }}
+        </div>
+    }
+</div>
+@if (filteredWishlists().length > 0) {
+    @for (wishlist of filteredWishlists(); track wishlist.id) {
+        <div class="flex items-center justify-between gap-4 border-b border-grey py-4">
+            <figure class="size-20 rounded-lg overflow-hidden flex-shrink-0">
+                @for (img of wishlist.wishlist_items[0].product.images; track img.id) {
+                    <picture class="size-full block">
+                        <img [src]="img.image_url" [alt]="wishlist.wishlist_items[0].product.name"
+                             class="size-full object-cover"
+                             loading="lazy"/>
+                    </picture>
+                }
+            </figure>
+
+            <div class="flex flex-col flex-1 gap-1">
+                <h3 class="text-base font-semibold text-base-content">{{ wishlist.wishlist_items[0].product.name }}</h3>
+                <p class="text-sm text-base-content/70">{{ wishlist.wishlist_items[0].product.description }}</p>
+                <div class="flex items-center gap-2 text-sm mt-1">
+                    <span class="text-primary font-semibold"> {{ wishlist.wishlist_items[0].product.price }} € </span>
+                </div>
+            </div>
+
+            <div class="flex flex-col items-end gap-2">
+                <!--        @if (!isInCart(wishlist.wishlist_items[0]?.product?.id)) {-->
+                <!--        <button class="btn btn-sm btn-primary" (click)="addToCart($event, wishlist.wishlist_items[0]?.product)">-->
+                <!--            Ajouter au panier-->
+                <!--        </button>-->
+                <!--        } @else {-->
+                <!--        <p class="text-sm text-success text-center w-full">Déjà dans le panier</p>-->
+                <!--        }-->
+            </div>
+        </div>
+    }
+} @else {
+    <div class="text-base-content/60 text-center mt-8">Aucun résultat ne correspond à votre recherche.</div>
+}

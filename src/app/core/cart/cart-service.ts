@@ -1,31 +1,21 @@
 import { isPlatformBrowser } from '@angular/common';
-import { HttpClient } from '@angular/common/http';
 import { computed, inject, Injectable, PLATFORM_ID, signal } from '@angular/core';
 import type { CartItem } from '@core/cart/cart-item-model';
 import { supabase } from '@auth/supabase-client';
+import { cartStore } from '@core/state/cart/cart-store';
 
 const CART_DOCUMENT_ID_STORAGE_KEY = 'app_cart_document_id';
 
 @Injectable({ providedIn: 'root' })
 export class CartService {
-    private readonly http = inject(HttpClient);
     private readonly platformId = inject(PLATFORM_ID);
+    private readonly cartStore = inject(cartStore);
     readonly cartItems = signal<CartItem[]>([]);
     private readonly cartId = signal<string | null>(this.loadCartId());
-    readonly cartItemsCount = computed(() =>
-        this.cartItems().reduce((total, item) => total + item.quantity, 0),
-    );
-
 
     readonly cartProductIds = computed(() => {
         return new Set(this.cartItems().map((item) => item.product?.id));
     });
-
-    readonly lastCartItems = computed(() =>
-        [...this.cartItems()].slice(-3).reverse(),
-    );
-
-    readonly hasMoreThanThreeItems = computed(() => this.cartItems().length > 3);
 
     async initializeCartItemsFromServer() {
         const currentCartId = this.cartId();
@@ -74,7 +64,7 @@ export class CartService {
         this.cartItems.set(cartItems);
     }
 
-    async addToCart({ productId, quantity, priceAtAdd }: { productId: number; quantity: number; priceAtAdd: number }) {
+    async addToCart(item: CartItem) {
         let currentCartId = this.cartId();
 
         if (currentCartId) {
@@ -108,9 +98,9 @@ export class CartService {
             .from('cart_items')
             .insert([
                 {
-                    product_id: productId,
-                    quantity: quantity,
-                    price_at_add: priceAtAdd,
+                    product_id: item.product.id,
+                    quantity: item.quantity,
+                    price_at_add: item.price_at_add,
                     cart_id: currentCartId,
                 },
             ])
@@ -173,12 +163,50 @@ export class CartService {
                 console.error('Erreur lors de la suppression de l\'item :', error.message);
                 return;
             }
-            
+
             this.cartItems.update((items) =>
                 items.filter((item) => item.id !== itemId),
             );
         } catch (error) {
             console.error('Erreur inattendue lors de la suppression de l\'item :', error);
         }
+    }
+
+    async syncGuestCartToUser(userId: string) {
+
+        const guestItems = this.cartStore.getItems();
+
+        if (guestItems.length === 0) return;
+
+        const { data: newCart, error: cartError } = await supabase
+            .from('carts')
+            .insert([{ created_by: userId }])
+            .select('id')
+            .single();
+
+        if (cartError || !newCart) {
+            console.error('❌ Erreur création panier:', cartError?.message);
+            return;
+        }
+
+        this.cartId.set(newCart.id);
+        this.saveCartId(newCart.id);
+        await this.initializeCartItemsFromServer();
+        
+        const entries = guestItems.map(item => ({
+            product_id: item.product.id,
+            quantity: item.quantity,
+            price_at_add: item.price_at_add,
+            cart_id: newCart.id,
+        }));
+
+        const { error: insertError } = await supabase.from('cart_items').insert(entries);
+
+        if (insertError) {
+            console.error('❌ Erreur lors de l\'insertion des articles :', insertError.message);
+            return;
+        }
+
+        this.cartStore.clear();
     }
 }

@@ -39,6 +39,7 @@ Deno.serve(async (req) => {
                 quantity: item.quantity,
                 price: (item.price?.unit_amount ?? 0) / 100,
                 image: product.images?.[0] ?? null,
+                product_id: product.metadata?.product_id ?? null,
             };
         });
 

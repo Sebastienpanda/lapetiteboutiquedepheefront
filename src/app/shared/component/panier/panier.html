@@ -45,9 +45,13 @@
                 </div>
             </div>
         }
-        @if (cartService.hasMoreThanThreeItems()) {
-            <p class="text-sm text-center text-muted mt-4">Et {{ cartItemsCount() - 3 }} article(s) de plus…</p>
+
+        @if (cartItemsCount() > 3) {
+            <p class="text-sm text-center text-muted mt-4">
+                Et {{ cartItemsCount() - 3 }} article(s) de plus…
+            </p>
         }
+        
         <a routerLink="/panier" class="btn btn-primary w-full mt-4">Voir son panier</a>
     </div>
 }

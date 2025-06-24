@@ -1,0 +1,44 @@
+<div class="bg-base-100 rounded-xl p-6 border border-base-200 space-y-6">
+    <div class="flex items-center gap-2">
+        <lucide-icon [img]="Lock" size="20" />
+        <h3 class="text-xl">Changer mon mot de passe</h3>
+    </div>
+    <p class="text-sm text-base-content/70">Votre mot de passe doit contenir au moins 12 caractères</p>
+
+    <form class="flex flex-col gap-4" [formGroup]="passwordForm" (submit)="onSubmit()">
+        <app-input-field
+            [id]="'password'"
+            [label]="'Mot de passe'"
+            [type]="'password'"
+            [placeholder]="'*********'"
+            [control]="passwordForm.controls.password"
+            [required]="true"
+            [errorMessages]="{
+						required: 'Le mot de passe est requis',
+						minlength: 'Min. 12 caractères',
+					}"
+            [showPasswordTips]="true"
+            [tipsContent]="[
+						'12 caractères minimum',
+						'1 majuscule, 1 minuscule',
+						'1 chiffre et 1 symbole',
+						'Évitez les mots simples',
+					]"
+        />
+
+        <app-input-field
+            [id]="'confirmPassword'"
+            [label]="'Confirmer le mot de passe'"
+            [type]="'password'"
+            [placeholder]="'Répétez le mot de passe'"
+            [required]="true"
+            [control]="passwordForm.controls.confirmPassword"
+            [errorMessages]="{
+						required: 'La confirmation est requise',
+					}"
+            [confirmPassword]="true"
+        />
+
+        <button class="btn btn-primary" type="submit">Mettre à jour le mot de passe</button>
+    </form>
+</div>

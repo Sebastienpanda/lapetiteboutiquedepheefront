@@ -1,0 +1,11 @@
+<app-profile-section-layout
+    [title]="baseTitle()"
+    [showShareListCreate]="true"
+    (searchChange)="search.set($event)"
+    (wishlistCreateClick)="openWishlistModal()"
+>
+    <ng-container sectionContent>
+        <app-wishlist-items [searchTerm]="search()" />
+    </ng-container>
+</app-profile-section-layout>
+<app-wishlist-modal [product]="null" (selected)="onWishlistSelected($event)"></app-wishlist-modal>

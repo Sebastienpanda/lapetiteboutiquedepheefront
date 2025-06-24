@@ -1,0 +1,58 @@
+<form class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    @if (userStore.user()) {
+        <div>
+            <label for="name" class="label"><span class="label-text">Nom complet</span></label>
+            <input
+                id="name"
+                type="text"
+                class="input input-bordered w-full"
+                [placeholder]="userStore.user()?.user_metadata?.['username']"
+                readonly
+            />
+        </div>
+    } @else if (userStore.loading()) {
+        <div>
+            <label for="name-skeleton" class="label"><span class="label-text">Nom Complet</span></label>
+            <input
+                id="name-skeleton"
+                type="text"
+                class="input input-bordered w-full skeleton bg-base-content/10"
+                readonly
+            />
+        </div>
+    }
+    <div>
+        <label for="adresse" class="label"><span class="label-text">Adresse</span></label>
+        <textarea
+            id="adresse"
+            class="textarea textarea-bordered w-full"
+            rows="3"
+            placeholder="123 Rue de Paris..."
+        ></textarea>
+    </div>
+    @if (userStore.user()) {
+        <div>
+            <label for="email" class="label"><span class="label-text">Email</span></label>
+            <input
+                id="email"
+                type="email"
+                class="input input-bordered w-full"
+                [placeholder]="userStore.user()?.email"
+                readonly
+            />
+        </div>
+    } @else if (userStore.loading()) {
+        <div>
+            <label for="email-skeleton" class="label"><span class="label-text">Nom Complet</span></label>
+            <input
+                id="email-skeleton"
+                type="text"
+                class="input input-bordered w-full skeleton bg-base-content/10"
+                readonly
+            />
+        </div>
+    }
+    <div class="md:col-span-2">
+        <button class="btn btn-primary btn-block md:w-auto">Enregistrer les modifications</button>
+    </div>
+</form>

@@ -1,0 +1,22 @@
+<input type="file" (change)="onFileChange($event)"/>
+<input [(ngModel)]="message" placeholder="Écris ton message"/>
+<button (click)="send()">Envoyer</button>
+
+@for (msg of messages(); track $index) {
+    <div class="chat" [class]="msg.sender_id === userId ? 'chat-end' : 'chat-start'">
+        <div class="chat-header">
+            {{ msg.sender_id === userId ? username : 'Anonyme' }}
+        </div>
+
+        <div class="chat-bubble">
+            @if (msg.image_url) {
+                <img [src]="msg.image_url" class="mt-2" alt="image"/>
+            }
+
+            @if (msg.content) {
+                <div>{{ msg.content }}</div>
+            }
+        </div>
+    </div>
+}
+

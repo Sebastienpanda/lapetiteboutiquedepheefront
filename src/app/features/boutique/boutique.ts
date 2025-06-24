@@ -87,8 +87,9 @@ export default class BoutiqueComponent implements OnInit {
         event.preventDefault();
         event.stopPropagation();
         void this.cart.addToCart({
-            productId: product.id,
-            priceAtAdd: product.price_at_add,
+            id: product.id,
+            product,
+            price_at_add: product.price_at_add,
             quantity: 1,
         });
     }

@@ -25,7 +25,7 @@
     </nav>
     <div class="flex items-center gap-5 xl:justify-self-end">
         <app-panier/>
-        @if (user.user()) {
+        @if (userStore.user()) {
             <div class="dropdown dropdown-end">
                 <button class="btn btn-ghost btn-circle avatar">
                     <div class="w-10 rounded-full">

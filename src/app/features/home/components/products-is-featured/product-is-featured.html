@@ -32,12 +32,12 @@
                     </div>
                     <span class="text-base text-base-content">{{ product.price }}€</span>
                     <div class="card-actions mt-4">
-                        <app-button (click)="addToCart($event,product)" class="w-full">Ajouter au panier</app-button>
-                        <!--                                                    @if (!isInCart(product.id)) {-->
-                        <!--                                                    <app-button (click)="addToCart($event,product)" class="w-full">Ajouter au panier </app-button>-->
-                        <!--                                                    } @else {-->
-                        <!--                                                    <p class="text-sm text-success text-center w-full">Déjà dans le panier</p>-->
-                        <!--                                                    }-->
+                        @if (!isInCart(product.id)) {
+                            <app-button (click)="addToCart($event,product)" class="w-full">Ajouter au panier
+                            </app-button>
+                        } @else {
+                            <p class="text-sm text-success text-center w-full">Déjà dans le panier</p>
+                        }
                     </div>
                 </div>
             </a>

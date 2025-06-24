@@ -1,0 +1,161 @@
+<app-section-wrapper>
+    @if (userStore.user()) {
+        <section class="flex flex-col gap-10">
+            <div class="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-6">
+                <div class="flex items-center gap-6 flex-wrap">
+                    <img
+                        src="/photo-1611673038517-b964c31f0ed7.jpg"
+                        alt="Avatar"
+                        class="w-24 h-24 rounded-full border-2 border-primary object-cover"
+                    />
+                    <div>
+
+                        <h1 class="text-2xl text-base-content">
+                            {{ userStore.user()?.user_metadata?.['username'] }}
+                        </h1>
+
+                        <p class="text-sm text-base-content/60">
+                            {{ userStore.user()?.created_at ? (userStore.user()!.created_at | memberSince) : '' }}
+                        </p>
+                    </div>
+                </div>
+                <div class="flex gap-4">
+                    <a routerLink="/profil/editer-profil" class="flex items-center gap-4 btn btn-outline">
+                        <lucide-icon [img]="Pen"/>
+                        <span class="text-sm text-base-content">Modifier le profil</span>
+                    </a>
+                    <button (click)="logout()" class="flex items-center gap-4 btn btn-outline btn-error">
+                        <lucide-icon [img]="LogOut"/>
+                        <span class="text-sm">Se déconnecter</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+                <a
+                    routerLink="/profil/listes-envie"
+                    class="bg-base-100 border border-grey hover:border-primary transition rounded-xl"
+                >
+                    <div class="flex items-center gap-4 p-6">
+                        <lucide-icon [img]="Bookmark" class="text-primary"/>
+                        <div>
+                            <p class="font-semibold">Liste d’envies</p>
+                            <small class="text-sm text-base-content/60">
+                                {{
+                                    wishlistCount() === 0 ? 'Aucune liste de crée' : wishlistCount() + ' wishlist' +
+                                        (wishlistCount() > 1 ? 's' : '') + ' de crée'
+                                }}
+                            </small>
+                        </div>
+                    </div>
+                </a>
+
+                <a
+                    routerLink="/profil/favoris"
+                    class="bg-base-100 border border-grey hover:border-primary transition rounded-xl"
+                >
+                    <div class="flex items-center gap-4 p-6">
+                        <lucide-icon [img]="Heart" class="text-primary"/>
+                        <div>
+                            <p class="font-semibold">Commandes</p>
+                            <small class="text-sm text-base-content/60">
+                                {{
+                                    favorisCount() === 0 ? 'Aucun produit en favoris' : favorisCount() + ' produit' +
+                                        (favorisCount() > 1 ? 's' : '') + ' en favoris'
+                                }}
+                            </small>
+                        </div>
+                    </div>
+                </a>
+
+                <a
+                    routerLink="/profil/conversations"
+                    class="bg-base-100 border border-grey hover:border-primary transition rounded-xl"
+                >
+                    <div class="flex items-center gap-4 p-6">
+                        <lucide-icon [img]="MessageSquare" class="text-primary"/>
+                        <div>
+                            <p class="font-semibold">Messages</p>
+                            <small class="text-sm text-base-content/60">2 non lus</small>
+                        </div>
+                    </div>
+                </a>
+
+                <a
+                    routerLink="/profil/commandes"
+                    class="bg-base-100 border border-grey hover:border-primary transition rounded-xl"
+                >
+                    <div class="flex items-center gap-4 p-6">
+                        <lucide-icon [img]="Package" class="text-primary"/>
+                        <div>
+                            <p class="font-semibold">Mes commandes</p>
+                            <small class="text-sm text-base-content/60">Historique des commandes</small>
+                        </div>
+                    </div>
+                </a>
+
+                <a
+                    routerLink="/profil/activites"
+                    class="bg-base-100 border border-grey hover:border-primary transition rounded-xl"
+                >
+                    <div class="flex items-center gap-4 p-6">
+                        <lucide-icon [img]="Clock" class="text-primary"/>
+                        <div>
+                            <p class="font-semibold">Activité récente</p>
+                            <small class="text-sm text-base-content/60">Voir toutes les activités</small>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <div class="card bg-base-100 border border-grey p-6 rounded-xl">
+                    <h2 class="text-lg text-base-content">Informations Personnelles</h2>
+                    <ul class="divide-y divide-grey mt-4 space-y-2 text-sm">
+                        <li class="flex justify-between py-1">
+                            <strong class="text-base-content/60">Email</strong>
+                            <span> {{ userStore.user()?.email }} </span>
+                        </li>
+                        <li class="flex justify-between py-1">
+                            <strong class="text-base-content/60">Téléphone</strong> <span>+33 6 12 34 56 78</span>
+                        </li>
+                        <li class="flex justify-between py-1">
+                            <strong class="text-base-content/60">Adresse</strong>
+                            <span>123 Rue de Paris, 75001 Paris</span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="card bg-base-100 border border-grey p-6 rounded-xl">
+                    <div class="flex justify-between items-center mb-4">
+                        <h2 class="text-lg text-base-content">Activité Récente</h2>
+                        <a class="btn btn-sm btn-ghost text-primary">Voir tout →</a>
+                    </div>
+                    <ul class="space-y-4 text-sm">
+                        <li class="flex items-start gap-3 hover:bg-base-200 p-3 rounded-lg transition cursor-pointer">
+                            <lucide-icon [img]="Package" class="text-primary"/>
+                            <div>
+                                <strong class="block">Commande #1234 expédiée</strong>
+                                <p class="text-base-content/60">20 avril 2025</p>
+                            </div>
+                        </li>
+                        <li class="flex items-start gap-3 hover:bg-base-200 p-3 rounded-lg transition cursor-pointer">
+                            <lucide-icon [img]="MessageSquare" class="text-primary"/>
+                            <div>
+                                <strong class="block">Nouveau message reçu</strong>
+                                <p class="text-base-content/60">19 avril 2025</p>
+                            </div>
+                        </li>
+                        <li class="flex items-start gap-3 hover:bg-base-200 p-3 rounded-lg transition cursor-pointer">
+                            <lucide-icon [img]="Heart" class="text-primary"/>
+                            <div>
+                                <strong class="block">Produit ajouté aux favoris</strong>
+                                <p class="text-base-content/60">Illustration personnalisée • 17 avril 2025</p>
+                            </div>
+                        </li>
+                    </ul>
+                    <!--                <app-pagination class="mt-6" />-->
+                </div>
+            </div>
+        </section>
+    }
+</app-section-wrapper>

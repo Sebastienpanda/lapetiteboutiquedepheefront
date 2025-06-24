@@ -49,6 +49,7 @@ export default class Cart implements OnInit {
         const { data, error } = await supabase.functions.invoke('create-checkout-session', {
             body: {
                 cartItems: this.cartItems().map(item => ({
+                    product_id: item.product.id,
                     name: item.product.name,
                     price: item.price_at_add,
                     quantity: item.quantity,

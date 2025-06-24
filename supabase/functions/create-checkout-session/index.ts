@@ -11,22 +11,25 @@ Deno.serve(async (req) => {
     };
 
     if (req.method === 'OPTIONS') {
-        return new Response('ok', {headers: corsHeaders});
+        return new Response('ok', { headers: corsHeaders });
     }
 
     try {
-        const {cartItems} = await req.json();
+        const { cartItems } = await req.json();
 
         const session = await stripe.checkout.sessions.create({
             payment_method_types: ['card'],
             mode: 'payment',
-            billing_address_collection: "required",
+            billing_address_collection: 'required',
             line_items: cartItems.map((item: any) => ({
                 price_data: {
                     currency: 'eur',
                     product_data: {
                         name: item.name,
                         images: item.images ?? [],
+                        metadata: {
+                            product_id: item.product_id,
+                        },
                     },
                     unit_amount: Math.round(item.price * 100),
                 },
@@ -36,13 +39,13 @@ Deno.serve(async (req) => {
             cancel_url: 'http://localhost:4200/panier',
         });
 
-        return new Response(JSON.stringify({url: session.url}), {
-            headers: {...corsHeaders, 'Content-Type': 'application/json'},
+        return new Response(JSON.stringify({ url: session.url }), {
+            headers: { ...corsHeaders, 'Content-Type': 'application/json' },
             status: 200,
         });
     } catch (error) {
-        return new Response(JSON.stringify({error: error.message}), {
-            headers: {...corsHeaders, 'Content-Type': 'application/json'},
+        return new Response(JSON.stringify({ error: error.message }), {
+            headers: { ...corsHeaders, 'Content-Type': 'application/json' },
             status: 400,
         });
     }

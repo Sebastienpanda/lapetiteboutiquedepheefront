@@ -16,10 +16,10 @@ export const routes: Routes = [
         loadChildren: () =>
             import('@core/layouts/auth-layout/auth-route').then((m) => m.routes),
     },
-    // {
-    //   path: "test",
-    //   loadComponent: () => import("@features/test/test"),
-    // },
+    {
+        path: 'test',
+        loadComponent: () => import('@features/test/test'),
+    },
     {
         path: 'success',
         loadComponent: () => import('@features/paiment/success'),
